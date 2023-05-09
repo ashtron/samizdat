@@ -1,10 +1,23 @@
-export default function BookForm() {
+const fetchTitles = async () => {
+  let titles = await fetch("https://jsonplaceholder.typicode.com/albums");
+  return titles.json();
+}
+
+export default async function BookForm() {
+  const books = await fetchTitles();
+
   return (
     <form>
       <article>
         <header>
-          <label htmlFor="search">Search for a book</label>
-          <input type="text" name="search" id="search" />
+          <label htmlFor="book-search">Search</label>
+          <input list="books" id="book-search" name="book-search" />
+
+          <datalist id="books">
+            {books.map((book) => {
+              return <option key={book.id} value={book.title} />;
+            })}
+          </datalist>
         </header>
 
         <div className="grid">
