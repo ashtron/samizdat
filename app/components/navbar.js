@@ -5,31 +5,30 @@ export default function Navbar() {
     <nav>
       <ul>
         <li>
-          <Link href="/"><strong>SAMIZDAT</strong></Link>
+          <Link href="/">
+            <strong>SAMIZDAT</strong>
+          </Link>
         </li>
       </ul>
 
       <ul>
         <li>
+          <Link href="/my-media">My Media</Link>
+        </li>
+        <li>
           <details role="list">
             <summary aria-haspopup="listbox" role="button">
-              Add Media
+              Add New
             </summary>
             <ul role="listbox">
               <li>
-                <Link href="/add-book">
-                  Book
-                </Link>
+                <Link href="/add-book">Book</Link>
               </li>
               <li>
-                <Link href="/add-album">
-                  Album
-                </Link>
+                <Link href="/add-album">Album</Link>
               </li>
               <li>
-                <Link href="/add-movie">
-                  Movie
-                </Link>
+                <Link href="/add-movie">Movie</Link>
               </li>
             </ul>
           </details>
