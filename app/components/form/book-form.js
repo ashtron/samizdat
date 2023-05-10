@@ -1,10 +1,25 @@
-const fetchTitles = async () => {
-  let titles = await fetch("https://jsonplaceholder.typicode.com/albums");
-  return titles.json();
-}
+"use client";
 
-export default async function BookForm() {
-  const books = await fetchTitles();
+import { useState } from "react";
+
+export default function BookForm() {
+  async function fetchTitles() {
+    let titles = await fetch("https://jsonplaceholder.typicode.com/albums");
+    let parsedTitles = await titles.json();
+    
+    return parsedTitles;
+  }
+
+  async function handleSearchClick(event) {
+    event.preventDefault();
+
+    const titles = await fetchTitles();
+    setBookTitles(titles);
+  }
+
+  const [bookTitles, setBookTitles] = useState([]);
+
+  console.log(bookTitles);
 
   return (
     <form>
@@ -14,10 +29,12 @@ export default async function BookForm() {
           <input list="books" id="book-search" name="book-search" />
 
           <datalist id="books">
-            {books.map((book) => {
+            {bookTitles.map((book) => {
               return <option key={book.id} value={book.title} />;
             })}
           </datalist>
+
+          <button onClick={handleSearchClick}>Search</button>
         </header>
 
         <div className="grid">
