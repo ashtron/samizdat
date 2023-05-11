@@ -1,0 +1,16 @@
+.input-box {
+  margin-botom: 0px;
+}
+
+.results ul {
+  /* padding: 15px 10px; */
+}
+
+.results ul li {
+  list-style: none;
+  padding: 15px 10px;
+}
+
+.results ul li:hover {
+  background: cornflowerblue;
+}

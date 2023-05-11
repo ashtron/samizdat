@@ -6,8 +6,32 @@ export default function BookForm() {
   async function fetchTitles() {
     let titles = await fetch("https://jsonplaceholder.typicode.com/albums");
     let parsedTitles = await titles.json();
-    
+
     return parsedTitles;
+  }
+
+  async function handleKeyDown(event) {
+    event.preventDefault();
+
+    if (event.keyCode === 13) {
+      const titles = await fetchTitles();
+      setBookTitles(titles);
+    }
+  }
+
+  async function postTest(event) {
+    event.preventDefault();
+
+    await fetch("http://localhost:3000/api/test", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        firstName: "Bob",
+        lastName: "the Builder",
+      }),
+    });
   }
 
   async function handleSearchClick(event) {
@@ -28,11 +52,17 @@ export default function BookForm() {
           <label htmlFor="book-search">Search</label>
           <input list="books" id="book-search" name="book-search" />
 
-          <datalist id="books">
-            {bookTitles.map((book) => {
-              return <option key={book.id} value={book.title} />;
-            })}
-          </datalist>
+          <label htmlFor="book-search">
+            <select name="book-search" id="book-search">
+              {bookTitles.map((book) => {
+                return (
+                  <option key={book.id} value={book.title}>
+                    {book.title}
+                  </option>
+                );
+              })}
+            </select>
+          </label>
 
           <button onClick={handleSearchClick}>Search</button>
         </header>

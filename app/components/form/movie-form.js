@@ -1,10 +1,37 @@
+"use client";
+
+import SearchBar from "./search-bar";
+
 export default function MovieForm() {
+  function handleKeyDown(event) {
+    event.preventDefault();
+
+    if (event.keyCode === 13) {
+      console.log("yep")
+    }
+  }
+
   return (
     <form>
       <article>
         <header>
-          <label htmlFor="search">Search for a movie</label>
-          <input type="text" name="search" id="search" />
+          <div className="search-box">
+            <div className="row">
+              <input
+                type="text"
+                id="input-box"
+                autoComplete="off"
+                onKeyDown={handleKeyDown}
+              />
+              <div className="results">
+                <ul>
+                  <li>One</li>
+                  <li>And another</li>
+                </ul>
+              </div>
+              <button>Search</button>
+            </div>
+          </div>
         </header>
 
         <div className="grid">
