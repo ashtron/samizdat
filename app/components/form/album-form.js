@@ -60,7 +60,7 @@ export default function AlbumForm() {
             <input
               type="text"
               id="release-date"
-              name="release-date"
+              name="releaseDate"
               placeholder="Release Date"
               value={state.releaseDate}
               onChange={handleChange}

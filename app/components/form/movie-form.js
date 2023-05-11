@@ -1,43 +1,50 @@
 "use client";
 
-import SearchBar from "./search-bar";
+import { useState } from "react";
 
 export default function MovieForm() {
-  function handleKeyDown(event) {
+  const [state, setState] = useState({
+    title: "",
+    director: "",
+    releaseDate: "",
+    genre: "",
+    rating: "",
+    notes: "",
+    tag: "",
+  });
+
+  function handleChange(event) {
     event.preventDefault();
 
-    if (event.keyCode === 13) {
-      console.log("yep")
-    }
+    setState({
+      ...state,
+      [event.target.name]: event.target.value,
+    });
+
+    console.log(state);
   }
 
   return (
     <form>
       <article>
         <header>
-          <div className="search-box">
-            <div className="row">
-              <input
-                type="text"
-                id="input-box"
-                autoComplete="off"
-                onKeyDown={handleKeyDown}
-              />
-              <div className="results">
-                <ul>
-                  <li>One</li>
-                  <li>And another</li>
-                </ul>
-              </div>
-              <button>Search</button>
-            </div>
-          </div>
+          <header>
+            <label htmlFor="search">Search for a movie</label>
+            <input type="text" name="search" id="search" />
+          </header>
         </header>
 
         <div className="grid">
           <label htmlFor="title">
             Title
-            <input type="text" id="title" name="title" placeholder="Title" />
+            <input
+              type="text"
+              id="title"
+              name="title"
+              placeholder="Title"
+              value={state.title}
+              onChange={handleChange}
+            />
           </label>
           <label htmlFor="director">
             Director
@@ -46,6 +53,8 @@ export default function MovieForm() {
               id="director"
               name="director"
               placeholder="Director"
+              value={state.director}
+              onChange={handleChange}
             />
           </label>
           <label htmlFor="release-date">
@@ -53,8 +62,10 @@ export default function MovieForm() {
             <input
               type="text"
               id="release-date"
-              name="release-date"
+              name="releaseDate"
               placeholder="Release Date"
+              value={state.releaseDate}
+              onChange={handleChange}
             />
           </label>
         </div>
@@ -62,7 +73,12 @@ export default function MovieForm() {
         <div className="grid">
           <label htmlFor="genre">
             Genre
-            <select name="genre" id="genre">
+            <select
+              name="genre"
+              id="genre"
+              value={state.genre}
+              onChange={handleChange}
+            >
               <option value="mystery">Mystery</option>
               <option value="romance">Romance</option>
               <option value="action">Literary Fiction</option>
@@ -74,7 +90,12 @@ export default function MovieForm() {
         <div className="grid">
           <label htmlFor="rating">
             Rating
-            <select name="rating" id="rating">
+            <select
+              name="rating"
+              id="rating"
+              value={state.rating}
+              onChange={handleChange}
+            >
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -87,15 +108,26 @@ export default function MovieForm() {
         <div className="grid">
           <label htmlFor="notes">
             Notes
-            <textarea name="notes" id="notes" rows="5"></textarea>
+            <textarea
+              name="notes"
+              id="notes"
+              rows="5"
+              value={state.notes}
+              onChange={handleChange}
+            ></textarea>
           </label>
         </div>
 
         <div className="grid">
           <label htmlFor="tag">
             Tag
-            <select name="tag" id="tag">
-              <option value="watch">watch</option>
+            <select
+              name="tag"
+              id="tag"
+              value={state.tag}
+              onChange={handleChange}
+            >
+              <option value="watched">watched</option>
               <option value="to-watch">to-watch</option>
               <option value="did-not-finish">did-not-finish</option>
             </select>

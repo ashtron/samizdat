@@ -3,86 +3,69 @@
 import { useState } from "react";
 
 export default function BookForm() {
-  async function fetchTitles() {
-    let titles = await fetch("https://jsonplaceholder.typicode.com/albums");
-    let parsedTitles = await titles.json();
+  const [state, setState] = useState({
+    title: "",
+    author: "",
+    publicationDate: "",
+    genre: "",
+    rating: "",
+    notes: "",
+    tag: "",
+  });
 
-    return parsedTitles;
-  }
-
-  async function handleKeyDown(event) {
+  function handleChange(event) {
     event.preventDefault();
 
-    if (event.keyCode === 13) {
-      const titles = await fetchTitles();
-      setBookTitles(titles);
-    }
-  }
-
-  async function postTest(event) {
-    event.preventDefault();
-
-    await fetch("http://localhost:3000/api/test", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        firstName: "Bob",
-        lastName: "the Builder",
-      }),
+    setState({
+      ...state,
+      [event.target.name]: event.target.value,
     });
+
+    console.log(state);
   }
-
-  async function handleSearchClick(event) {
-    event.preventDefault();
-
-    const titles = await fetchTitles();
-    setBookTitles(titles);
-  }
-
-  const [bookTitles, setBookTitles] = useState([]);
-
-  console.log(bookTitles);
 
   return (
     <form>
       <article>
         <header>
-          <label htmlFor="book-search">Search</label>
-          <input list="books" id="book-search" name="book-search" />
-
-          <label htmlFor="book-search">
-            <select name="book-search" id="book-search">
-              {bookTitles.map((book) => {
-                return (
-                  <option key={book.id} value={book.title}>
-                    {book.title}
-                  </option>
-                );
-              })}
-            </select>
-          </label>
-
-          <button onClick={handleSearchClick}>Search</button>
+          <header>
+            <label htmlFor="search">Search for a book</label>
+            <input type="text" name="search" id="search" />
+          </header>
         </header>
 
         <div className="grid">
           <label htmlFor="title">
             Title
-            <input type="text" id="title" name="title" placeholder="Title" />
+            <input
+              type="text"
+              id="title"
+              name="title"
+              placeholder="Title"
+              value={state.title}
+              onChange={handleChange}
+            />
           </label>
           <label htmlFor="author">
             Author
-            <input type="text" id="author" name="author" placeholder="Author" />
+            <input
+              type="text"
+              id="author"
+              name="author"
+              placeholder="Author"
+              value={state.author}
+              onChange={handleChange}
+            />
           </label>
           <label htmlFor="publication-date">
             Publication Date
             <input
               type="text"
               id="publication-date"
-              name="publication-date"
+              name="publicationDate"
               placeholder="Publication Date"
+              value={state.publicationDate}
+              onChange={handleChange}
             />
           </label>
         </div>
@@ -90,7 +73,12 @@ export default function BookForm() {
         <div className="grid">
           <label htmlFor="genre">
             Genre
-            <select name="genre" id="genre">
+            <select
+              name="genre"
+              id="genre"
+              value={state.genre}
+              onChange={handleChange}
+            >
               <option value="mystery">Mystery</option>
               <option value="romance">Romance</option>
               <option value="literary-fiction">Literary Fiction</option>
@@ -101,7 +89,12 @@ export default function BookForm() {
         <div className="grid">
           <label htmlFor="rating">
             Rating
-            <select name="rating" id="rating">
+            <select
+              name="rating"
+              id="rating"
+              value={state.rating}
+              onChange={handleChange}
+            >
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -114,14 +107,25 @@ export default function BookForm() {
         <div className="grid">
           <label htmlFor="notes">
             Notes
-            <textarea name="notes" id="notes" rows="5"></textarea>
+            <textarea
+              name="notes"
+              id="notes"
+              rows="5"
+              value={state.notes}
+              onChange={handleChange}
+            ></textarea>
           </label>
         </div>
 
         <div className="grid">
           <label htmlFor="tag">
             Tag
-            <select name="tag" id="tag">
+            <select
+              name="tag"
+              id="tag"
+              value={state.tag}
+              onChange={handleChange}
+            >
               <option value="read">read</option>
               <option value="to-read">to-read</option>
               <option value="did-not-finish">did-not-finish</option>
