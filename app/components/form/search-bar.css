@@ -1,16 +1,20 @@
-.input-box {
-  margin-botom: 0px;
+.search-bar input {
+  margin-bottom: 0;
 }
 
-.results ul {
-  /* padding: 15px 10px; */
+.search-bar ul {
+  padding: 0;
 }
 
-.results ul li {
+.search-bar ul li {
   list-style: none;
   padding: 15px 10px;
+  margin: 0;
+  border-left: 3px solid black;
+  border-bottom: 3px solid black;
+  border-right: 3px solid black;
 }
 
-.results ul li:hover {
+.search-bar ul li:hover {
   background: cornflowerblue;
 }
