@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function SearchBar() {
   const [books, setBooks] = useState([]);
-  const [booksLoaded, setBooksLoaded] = useState(false);
+  const [suggestionsLoading, setSuggestionsLoading] = useState(false);
   const [text, setText] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
@@ -24,6 +24,7 @@ export default function SearchBar() {
 
     if (event.keyCode === 13) {
       event.preventDefault();
+      setSuggestionsLoading(true);
       fetchBooks();
     }
   };
@@ -46,6 +47,7 @@ export default function SearchBar() {
     }
 
     setSuggestions(matches);
+    setSuggestionsLoading(false);
   }, [books]);
 
   return (
@@ -57,6 +59,8 @@ export default function SearchBar() {
         value={text}
       />
       <ul>
+        {suggestionsLoading ? <button aria-busy="true"></button> : ""}
+        
         {suggestions &&
           suggestions.map((suggestion, i) => {
             return (
