@@ -24,8 +24,11 @@ export default function SearchBar() {
 
     if (event.keyCode === 13) {
       event.preventDefault();
-      setSuggestionsLoading(true);
-      fetchBooks();
+
+      if (text.length > 0) {
+        setSuggestionsLoading(true);
+        fetchBooks();
+      }
     }
   };
 
@@ -52,15 +55,17 @@ export default function SearchBar() {
 
   return (
     <div className="search-bar">
+      <label htmlFor="search-input">Search by Title</label>
       <input
         type="text"
+        name="search-input"
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         value={text}
       />
       <ul>
         {suggestionsLoading ? <button aria-busy="true"></button> : ""}
-        
+
         {suggestions &&
           suggestions.map((suggestion, i) => {
             return (
