@@ -21,7 +21,7 @@ export default function MyMediaPage() {
   ];
 
   const containerStyles = {
-    width: "250px",
+    width: "850px",
     height: "400px",
     margin: "0 auto"
   }

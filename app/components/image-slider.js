@@ -10,13 +10,31 @@ export default function ImageSlider({ slides }) {
     position: "relative",
   };
 
-  const slideStyles = {
+  const slideStyles1 = {
     width: "100%",
     height: "100%",
     borderRadius: "10px",
     backgroundPosition: "center",
     backgroundSize: "cover",
     backgroundImage: `url(${slides[currentSlide].url})`,
+  };
+
+  const slideStyles2 = {
+    width: "100%",
+    height: "100%",
+    borderRadius: "10px",
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    backgroundImage: `url(${slides[currentSlide + 1].url})`,
+  };
+
+  const slideStyles3 = {
+    width: "100%",
+    height: "100%",
+    borderRadius: "10px",
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    backgroundImage: `url(${slides[currentSlide + 2].url})`,
   };
 
   const leftArrowStyles = {
@@ -54,14 +72,16 @@ export default function ImageSlider({ slides }) {
   };
 
   return (
-    <div style={sliderStyles}>
+    <div style={sliderStyles} className="grid">
       <div style={leftArrowStyles} onClick={goToPreviousSlide}>
         {"<"}
       </div>
       <div style={rightArrowStyles} onClick={goToNextSlide}>
         {">"}
       </div>
-      <div style={slideStyles}></div>
+      <div style={slideStyles1}></div>
+      <div style={slideStyles2}></div>
+      <div style={slideStyles3}></div>
     </div>
   );
 }
