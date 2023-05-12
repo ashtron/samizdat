@@ -25,7 +25,7 @@ export default function ImageSlider({ slides }) {
     borderRadius: "10px",
     backgroundPosition: "center",
     backgroundSize: "cover",
-    backgroundImage: `url(${slides[currentSlide + 1].url})`,
+    backgroundImage: `url(${slides[(currentSlide + 1) % slides.length].url})`,
   };
 
   const slideStyles3 = {
@@ -34,14 +34,14 @@ export default function ImageSlider({ slides }) {
     borderRadius: "10px",
     backgroundPosition: "center",
     backgroundSize: "cover",
-    backgroundImage: `url(${slides[currentSlide + 2].url})`,
+    backgroundImage: `url(${slides[(currentSlide + 2) % slides.length].url})`,
   };
 
   const leftArrowStyles = {
     position: "absolute",
     top: "50%",
     transform: "translate(0, -50%)",
-    left: "32px",
+    left: "-75px",
     fontSize: "45px",
     color: "#fff",
     zIndex: 1,
@@ -52,7 +52,7 @@ export default function ImageSlider({ slides }) {
     position: "absolute",
     top: "50%",
     transform: "translate(0, -50%)",
-    right: "32px",
+    right: "-75px",
     fontSize: "45px",
     color: "#fff",
     zIndex: 1,
@@ -76,12 +76,14 @@ export default function ImageSlider({ slides }) {
       <div style={leftArrowStyles} onClick={goToPreviousSlide}>
         {"<"}
       </div>
-      <div style={rightArrowStyles} onClick={goToNextSlide}>
-        {">"}
-      </div>
+      
       <div style={slideStyles1}></div>
       <div style={slideStyles2}></div>
       <div style={slideStyles3}></div>
+
+      <div style={rightArrowStyles} onClick={goToNextSlide}>
+        {">"}
+      </div>
     </div>
   );
 }
