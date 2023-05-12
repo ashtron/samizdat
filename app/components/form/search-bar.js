@@ -3,31 +3,37 @@
 import "./search-bar.css";
 import { useState, useEffect } from "react";
 
+import Link from "next/link";
+
 export default function SearchBar() {
   const [books, setBooks] = useState([]);
   const [booksLoaded, setBooksLoaded] = useState(false);
   const [text, setText] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
-  const handleChange = (event) => {
+  const handleKeyDown = async (event) => {
+    const fetchBooks = async () => {
+      let books = await fetch(
+        `https://openlibrary.org/search.json?q=${text.replaceAll(" ", "+")}`
+      );
+      let parsedBooks = await books.json();
+      let docs = parsedBooks.docs;
+
+      setBooks(docs.slice(0, 11));
+    };
+
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      fetchBooks();
+    }
+  };
+
+  const handleChange = async (event) => {
     event.preventDefault();
 
     const newText = event.target.value;
-
     setText(newText);
   };
-
-  useEffect(() => {
-    const loadBooks = async () => {
-      let books = await fetch("https://jsonplaceholder.typicode.com/albums");
-      let parsedBooks = await books.json();
-
-      setBooks(parsedBooks.slice(0, 7));
-      setBooksLoaded(true);
-    };
-
-    if (!booksLoaded) loadBooks();
-  });
 
   useEffect(() => {
     let matches = [];
@@ -40,15 +46,26 @@ export default function SearchBar() {
     }
 
     setSuggestions(matches);
-  }, [text]);
+  }, [books]);
 
   return (
     <div className="search-bar">
-      <input type="text" onChange={handleChange} value={text} />
+      <input
+        type="text"
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        value={text}
+      />
       <ul>
         {suggestions &&
           suggestions.map((suggestion, i) => {
-            return <li key={i}>{suggestion.title}</li>;
+            return (
+              <li key={suggestion.key}>
+                <Link href={`https://openlibrary.org${suggestion.key}`}>
+                  {suggestion.title}, {suggestion.author_name}
+                </Link>
+              </li>
+            );
           })}
       </ul>
     </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import SearchBar from "./search-bar";
 
 export default function BookForm() {
   const [state, setState] = useState({
@@ -29,8 +30,7 @@ export default function BookForm() {
       <article>
         <header>
           <header>
-            <label htmlFor="search">Search for a book</label>
-            <input type="text" name="search" id="search" />
+            <SearchBar />
           </header>
         </header>
 
