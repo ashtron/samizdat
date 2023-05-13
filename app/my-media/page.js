@@ -20,21 +20,13 @@ export default function MyMediaPage() {
     },
   ];
 
-  const containerStyles = {
-    width: "850px",
-    height: "400px",
-    margin: "0 auto"
-  }
-
   return (
     <main className="container">
       <h1>My Media</h1>
       <div>
         <article>
           <header>My Books</header>
-          <div style={containerStyles}>
-            <ImageSlider slides={slides} />
-          </div>
+          <ImageSlider slides={slides} />
         </article>
         <article>
           <header>My Movies</header>

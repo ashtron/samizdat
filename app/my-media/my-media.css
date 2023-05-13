@@ -1,0 +1,13 @@
+.container-styles {
+  width: 850px;
+  height: 400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 800px) {
+  .container-styles {
+    width: 200px;
+    height: 1000px;
+    margin: 0 auto;
+  }
+}
