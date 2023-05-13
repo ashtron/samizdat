@@ -1,11 +1,12 @@
 import ImageSlider from "../components/image-slider";
-import { createClient } from "@supabase/supabase-js";
+import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { headers, cookies } from "next/dist/client/components/headers";
 
 export default async function MyMediaPage() {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  );
+  const supabase = createServerComponentSupabaseClient({
+    headers,
+    cookies
+  });
 
   const books = await supabase.from("books").select();
 
