@@ -1,24 +1,21 @@
 import ImageSlider from "../components/image-slider";
+import { createClient } from "@supabase/supabase-js";
 
-export default function MyMediaPage() {
-  const slides = [
-    {
-      url: "http://localhost:3000/test-covers/the-wind-up-bird-chronicle.jpg",
-      title: "The Wind-Up Bird Chronicle",
-    },
-    {
-      url: "http://localhost:3000/test-covers/desert-solitaire.jpg",
-      title: "Desert Solitaire",
-    },
-    {
-      url: "http://localhost:3000/test-covers/the-trial.jpeg",
-      title: "The Trial",
-    },
-    {
-      url: "http://localhost:3000/test-covers/structure-and-interpretation.jpg",
-      title: "The Structure and Interpretation of Computer Programs",
-    },
-  ];
+export default async function MyMediaPage() {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  );
+
+  const books = await supabase.from("books").select();
+
+  const slides = books.data.map((book) => {
+    return {
+      id: book.id,
+      title: book.title,
+      imageUrl: book.image_url,
+    };
+  });
 
   return (
     <main className="container">

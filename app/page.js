@@ -3,14 +3,16 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="container">
-      <section>
-        <h2>Section 1</h2>
-        <p>Here is some text.</p>
-      </section>
-      <section>
-        <h2>Section 2</h2>
-        <p>Here is some more text.</p>
-      </section>
+      <article>
+        <header>Sign In</header>
+        <label htmlFor="username">Username</label>
+        <input type="text" name="username" />
+
+        <label htmlFor="password">Password</label>
+        <input type="password" name="password" />
+
+        <button type="submit">Sign In</button>
+      </article>
     </main>
   );
 }

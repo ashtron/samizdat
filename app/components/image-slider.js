@@ -29,13 +29,13 @@ export default function ImageSlider({ slides }) {
 
         <div
           className="slide"
-          style={{ backgroundImage: `url(${slides[currentSlide].url})` }}
+          style={{ backgroundImage: `url(${slides[currentSlide].imageUrl})` }}
         ></div>
         <div
           className="slide"
           style={{
             backgroundImage: `url(${
-              slides[(currentSlide + 1) % slides.length].url
+              slides[(currentSlide + 1) % slides.length].imageUrl
             })`,
           }}
         ></div>
@@ -43,7 +43,7 @@ export default function ImageSlider({ slides }) {
           className="slide"
           style={{
             backgroundImage: `url(${
-              slides[(currentSlide + 2) % slides.length].url
+              slides[(currentSlide + 2) % slides.length].imageUrl
             })`,
           }}
         ></div>
