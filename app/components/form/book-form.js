@@ -1,8 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import SearchBar from "./search-bar";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+
+import SearchBar from "./search-bar";
+import TextInput from "./text-input";
+import Select from "./select";
+import TextAreaInput from "./textarea";
 
 export default function BookForm() {
   const supabase = createBrowserSupabaseClient();
@@ -82,116 +86,64 @@ export default function BookForm() {
         </header>
 
         <div className="grid">
-          <label htmlFor="title">
-            Title
-            <input
-              type="text"
-              id="title"
-              name="title"
-              placeholder="Title"
-              value={state.title}
-              onChange={handleChange}
-            />
-          </label>
-          <label htmlFor="author">
-            Author
-            <input
-              type="text"
-              id="author"
-              name="author"
-              placeholder="Author"
-              value={state.author}
-              onChange={handleChange}
-            />
-          </label>
-          <label htmlFor="publication-date">
-            Publication Date
-            <input
-              type="text"
-              id="publication-date"
-              name="publicationDate"
-              placeholder="Publication Date"
-              value={state.publicationDate}
-              onChange={handleChange}
-            />
-          </label>
+          <TextInput
+            name="title"
+            handleChange={handleChange}
+            value={state.title}
+          />
+          <TextInput
+            name="author"
+            handleChange={handleChange}
+            value={state.author}
+          />
+          <TextInput
+            name="publicationDate"
+            handleChange={handleChange}
+            value={state.publicationDate}
+          />
         </div>
 
         <div className="grid">
-          <label htmlFor="imageUrl">
-            Image URL
-            <input
-              type="text"
-              id="imageUrl"
-              name="imageUrl"
-              placeholder="Image URL"
-              value={state.imageUrl}
-              onChange={handleChange}
-            />
-          </label>
+          <TextInput
+            name="imageUrl"
+            handleChange={handleChange}
+            value={state.imageUrl}
+          />
         </div>
 
         <div className="grid">
-          <label htmlFor="genre">
-            Genre
-            <select
-              name="genre"
-              id="genre"
-              value={state.genre}
-              onChange={handleChange}
-            >
-              <option value="mystery">Mystery</option>
-              <option value="romance">Romance</option>
-              <option value="literary-fiction">Literary Fiction</option>
-            </select>
-          </label>
+          <Select
+            name="genre"
+            handleChange={handleChange}
+            value={state.genre}
+            options={["Mystery", "Science Fiction", "Romance"]}
+          />
         </div>
 
         <div className="grid">
-          <label htmlFor="rating">
-            Rating
-            <select
-              name="rating"
-              id="rating"
-              value={state.rating}
-              onChange={handleChange}
-            >
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-          </label>
+          <Select
+            name="rating"
+            handleChange={handleChange}
+            value={state.rating}
+            options={["1", "2", "3", "4", "5"]}
+          />
         </div>
 
         <div className="grid">
-          <label htmlFor="notes">
-            Notes
-            <textarea
-              name="notes"
-              id="notes"
-              rows="5"
-              value={state.notes}
-              onChange={handleChange}
-            ></textarea>
-          </label>
+          <TextAreaInput
+            name="notes"
+            handleChange={handleChange}
+            value={state.notes}
+          />
         </div>
 
         <div className="grid">
-          <label htmlFor="tag">
-            Tag
-            <select
-              name="tag"
-              id="tag"
-              value={state.tag}
-              onChange={handleChange}
-            >
-              <option value="read">read</option>
-              <option value="to-read">to-read</option>
-              <option value="did-not-finish">did-not-finish</option>
-            </select>
-          </label>
+          <Select
+            name="tag"
+            handleChange={handleChange}
+            value={state.tag}
+            options={["read", "to read", "did not finish"]}
+          />
         </div>
 
         <footer>

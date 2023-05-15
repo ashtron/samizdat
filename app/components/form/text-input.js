@@ -1,14 +1,15 @@
-import { capitalizeFirstLetter } from "@/app/lib/text-utilities";
+import { toTitleCase } from "@/app/lib/text-utilities";
 
-export default function TextInput(props) {
+export default function TextInput({ name, handleChange, value }) {
   return (
-    <label htmlFor={props.id}>
-      {capitalizeFirstLetter(props.id)}
+    <label htmlFor={name}>
+      {toTitleCase(name)}
       <input
         type="text"
-        id={props.id}
-        name={props.id}
-        placeholder={capitalizeFirstLetter(props.id)}
+        name={name}
+        placeholder={toTitleCase(name)}
+        value={value}
+        onChange={handleChange}
       />
     </label>
   );
