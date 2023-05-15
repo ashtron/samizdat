@@ -18,5 +18,8 @@
     "react-dom": "18.2.0",
     "remove": "^0.1.5",
     "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "encoding": "^0.1.13"
   }
 }

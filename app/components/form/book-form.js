@@ -36,9 +36,21 @@ export default function BookForm() {
   }
 
   const addBook = async () => {
-    const newBook = { title: state.title, image_url: state.imageUrl };
+    const newBook = {
+      title: state.title,
+      author: state.author,
+      image_url: state.imageUrl,
+      publication_date: state.publicationDate,
+      genre: state.genre,
+      rating: state.rating,
+      notes: state.notes,
+      tag: state.tag,
+    };
+    
     console.log(newBook);
     const { data, error } = await supabase.from("books").insert([newBook]);
+    console.log("data:", data);
+    console.log("error:", error);
   };
 
   return (
