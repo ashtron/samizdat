@@ -76,6 +76,13 @@ export default function BookDetail({ params }) {
       .eq("id", id);
   };
 
+  const deleteBook = async () => {
+    const { data, error } = await supabase
+      .from("books")
+      .delete()
+      .eq("id", id);
+  };
+
   function handleChange(event) {
     event.preventDefault();
 
@@ -99,11 +106,6 @@ export default function BookDetail({ params }) {
         </header>
 
         <div className="grid">
-          <TextInput
-            name="title"
-            handleChange={handleChange}
-            value={state.title}
-          />
           <TextInput
             name="author"
             handleChange={handleChange}
@@ -160,7 +162,12 @@ export default function BookDetail({ params }) {
         </div>
 
         <footer>
-          <button type="submit">Update Details</button>
+          <button type="submit">
+            Update Details
+          </button>
+          <button type="submit" onClick={deleteBook}>
+            Delete Book
+          </button>
         </footer>
       </article>
     </form>
