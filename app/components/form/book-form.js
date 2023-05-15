@@ -2,11 +2,15 @@
 
 import { useState } from "react";
 import SearchBar from "./search-bar";
+import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 export default function BookForm() {
+  const supabase = createBrowserSupabaseClient();
+
   const [state, setState] = useState({
     title: "",
     author: "",
+    imageUrl: "",
     publicationDate: "",
     genre: "",
     rating: "",
@@ -25,8 +29,20 @@ export default function BookForm() {
     console.log(state);
   }
 
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    addBook();
+  }
+
+  const addBook = async () => {
+    const newBook = { title: state.title, image_url: state.imageUrl };
+    console.log(newBook);
+    const { data, error } = await supabase.from("books").insert([newBook]);
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <article>
         <header>
           <header>
@@ -65,6 +81,20 @@ export default function BookForm() {
               name="publicationDate"
               placeholder="Publication Date"
               value={state.publicationDate}
+              onChange={handleChange}
+            />
+          </label>
+        </div>
+
+        <div className="grid">
+          <label htmlFor="imageUrl">
+            Image URL
+            <input
+              type="text"
+              id="imageUrl"
+              name="imageUrl"
+              placeholder="Image URL"
+              value={state.imageUrl}
               onChange={handleChange}
             />
           </label>

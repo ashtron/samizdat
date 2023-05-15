@@ -24,7 +24,7 @@ export default async function MyMediaPage() {
       <div>
         <article>
           <header>My Books</header>
-          <ImageSlider slides={slides} />
+          {slides.length === 0 ? <button aria-busy="true"></button> : <ImageSlider slides={slides} />}
         </article>
         <article>
           <header>My Movies</header>
