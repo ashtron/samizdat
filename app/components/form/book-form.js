@@ -46,11 +46,30 @@ export default function BookForm() {
       notes: state.notes,
       tag: state.tag,
     };
-    
-    console.log(newBook);
-    const { data, error } = await supabase.from("books").insert([newBook]);
-    console.log("data:", data);
-    console.log("error:", error);
+
+    const filteredBook = {};
+
+    Object.keys(newBook).forEach((key) => {
+      if (newBook[key] !== "") {
+        filteredBook[key] = newBook[key];
+      }
+    });
+
+    console.log(filteredBook);
+
+    await supabase.from("books").insert([filteredBook]);
+  };
+
+  const onSearchBarSuggestionClick = (suggestion) => {
+    state.title = setState({
+      ...state,
+      title: suggestion.title,
+      author: suggestion.author_name[0],
+      publicationDate: suggestion.first_publish_year,
+      imageUrl: `https://covers.openlibrary.org/b/id/${suggestion.cover_i}-M.jpg`,
+    });
+
+    console.log(suggestion.author_name);
   };
 
   return (
@@ -58,7 +77,7 @@ export default function BookForm() {
       <article>
         <header>
           <header>
-            <SearchBar />
+            <SearchBar onClick={onSearchBarSuggestionClick} />
           </header>
         </header>
 

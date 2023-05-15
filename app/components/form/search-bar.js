@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 
 import Link from "next/link";
 
-export default function SearchBar() {
+export default function SearchBar({ onClick }) {
   const [books, setBooks] = useState([]);
   const [suggestionsLoading, setSuggestionsLoading] = useState(false);
   const [text, setText] = useState("");
@@ -69,10 +69,8 @@ export default function SearchBar() {
         {suggestions &&
           suggestions.map((suggestion, i) => {
             return (
-              <li key={suggestion.key}>
-                <Link href={`https://openlibrary.org${suggestion.key}`}>
-                  {suggestion.title}, {suggestion.author_name}
-                </Link>
+              <li key={suggestion.key} onClick={() => onClick(suggestion)}>
+                {suggestion.title}, {suggestion.author_name}
               </li>
             );
           })}
