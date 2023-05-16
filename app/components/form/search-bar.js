@@ -26,11 +26,14 @@ export default function SearchBar({ onClick }) {
     if (event.keyCode === 13) {
       event.preventDefault();
 
+
       if (text.length > 0) {
         setSuggestions([]);
         setSuggestionsLoading(true);
         fetchBooks();
       }
+    } else if (event.keyCode === 27) {
+      setSuggestionsOpen(false);
     }
   };
 
