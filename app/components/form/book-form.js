@@ -7,6 +7,7 @@ import SearchBar from "./search-bar";
 import TextInput from "./text-input";
 import Select from "./select";
 import TextAreaInput from "./textarea";
+import "./book-form.css";
 
 export default function BookForm() {
   const supabase = createBrowserSupabaseClient();
@@ -20,7 +21,12 @@ export default function BookForm() {
     rating: "",
     notes: "",
     tag: "",
+    break: "true"
   });
+
+  const [addingBook, setAddingBook] = useState(false);
+  const [bookAdded, setBookAdded] = useState(false);
+  const [error, setError] = useState("");
 
   function handleChange(event) {
     event.preventDefault();
@@ -36,6 +42,7 @@ export default function BookForm() {
   function handleSubmit(event) {
     event.preventDefault();
 
+    setAddingBook(true);
     addBook();
   }
 
@@ -59,10 +66,22 @@ export default function BookForm() {
       }
     });
 
-    await supabase.from("books").insert([filteredBook]);
+    const response = await supabase.from("books").insert([filteredBook]);
+
+    if (response.status === 201) {
+      setAddingBook(false);
+      setBookAdded(true);
+      setError("");
+    } else {
+      setError(response.error.message);
+      setAddingBook(false);
+      setBookAdded(false);
+    }
   };
 
   const onSearchBarSuggestionClick = (suggestion) => {
+    setBookAdded(false);
+
     const imageUrl = suggestion.cover_i
       ? `https://covers.openlibrary.org/b/id/${suggestion.cover_i}-M.jpg`
       : "";
@@ -148,7 +167,14 @@ export default function BookForm() {
         </div>
 
         <footer>
-          <button type="submit">Add Book</button>
+          <button
+            type="submit"
+            aria-busy={addingBook}
+            style={{ backgroundColor: bookAdded ? "#77dd77" : "" }}
+          >
+            Add Book
+          </button>
+          { error ? <div className="error">Error: {error}</div> : ""}
         </footer>
       </article>
     </form>
