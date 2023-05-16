@@ -43,8 +43,8 @@ export default function BookForm() {
     const newBook = {
       title: state.title,
       author: state.author,
-      image_url: state.imageUrl,
-      publication_date: state.publicationDate,
+      imageUrl: state.imageUrl,
+      publicationDate: state.publicationDate,
       genre: state.genre,
       rating: state.rating,
       notes: state.notes,

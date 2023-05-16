@@ -16,7 +16,9 @@ export default function BookDetail({ params }) {
 
   const fetchBook = async () => {
     const book = await supabase.from("books").select("*").eq("id", id);
+
     const stateObject = {};
+    
     Object.keys(book.data[0]).forEach((key) => {
       if (book.data[0][key] !== null) {
         stateObject[key] = book.data[0][key];
@@ -52,8 +54,8 @@ export default function BookDetail({ params }) {
     const newDetails = {
       title: state.title,
       author: state.author,
-      image_url: state.imageUrl,
-      publication_date: state.publicationDate,
+      imageUrl: state.imageUrl,
+      publicationDate: state.publicationDate,
       genre: state.genre,
       rating: state.rating,
       notes: state.notes,

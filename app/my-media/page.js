@@ -14,7 +14,7 @@ export default async function MyMediaPage() {
     return {
       id: book.id,
       title: book.title,
-      imageUrl: book.image_url,
+      imageUrl: book.imageUrl,
     };
   });
 
