@@ -3,3 +3,12 @@
   justify-content: center;
   color: red;
 }
+
+.image-container {
+  display: flex;
+  justify-content: center;
+}
+
+img {
+  margin-bottom: var(--block-spacing-vertical);
+}

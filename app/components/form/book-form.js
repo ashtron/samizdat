@@ -104,6 +104,10 @@ export default function BookForm() {
           </header>
         </header>
 
+        <div className="image-container">
+          <img src={state.imageUrl} alt="" />
+        </div>
+
         <div className="grid">
           <TextInput
             name="title"
