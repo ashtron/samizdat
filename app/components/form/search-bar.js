@@ -65,7 +65,8 @@ export default function SearchBar({ onClick }) {
             onKeyDown={handleKeyDown}
             value={text}
             className="search-input"
-            onClick={(event) => setSuggestionsOpen(true)}
+            onClick={() => setSuggestionsOpen(true)}
+            placeholder="Search by title"
           />
         </summary>
         <ul role="listbox">
@@ -79,7 +80,7 @@ export default function SearchBar({ onClick }) {
               return (
                 <li
                   key={suggestion.key}
-                  onClick={(event) => {
+                  onClick={() => {
                     onClick(suggestion);
                     setSuggestionsOpen(false);
                   }}

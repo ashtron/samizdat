@@ -72,8 +72,6 @@ export default function BookForm() {
       publicationDate: suggestion.first_publish_year,
       imageUrl: `https://covers.openlibrary.org/b/id/${suggestion.cover_i}-M.jpg`,
     });
-
-    console.log(suggestion.author_name);
   };
 
   return (

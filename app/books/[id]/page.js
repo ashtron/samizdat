@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 import TextInput from "@/app/components/form/text-input";
 import TextAreaInput from "@/app/components/form/textarea";
 import Select from "@/app/components/form/select";
+import "./book-detail.css";
 
 export default function BookDetail({ params }) {
   const supabase = createBrowserSupabaseClient();
@@ -105,6 +106,10 @@ export default function BookDetail({ params }) {
             value={state.title}
           />
         </header>
+
+        <div className="image-container">
+          <img src={state.imageUrl} alt="" />
+        </div>
 
         <div className="grid">
           <TextInput
