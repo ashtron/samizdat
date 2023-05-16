@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
 
 import SearchBar from "./search-bar";
 import TextInput from "./text-input";
@@ -27,6 +28,8 @@ export default function BookForm() {
   const [addingBook, setAddingBook] = useState(false);
   const [bookAdded, setBookAdded] = useState(false);
   const [error, setError] = useState("");
+
+  const router = useRouter();
 
   function handleChange(event) {
     event.preventDefault();
@@ -66,12 +69,13 @@ export default function BookForm() {
       }
     });
 
-    const response = await supabase.from("books").insert([filteredBook]);
+    const response = await supabase.from("books").insert([filteredBook]).select();
 
     if (response.status === 201) {
       setAddingBook(false);
       setBookAdded(true);
       setError("");
+      router.push(`/books/${response.data[0].id}`);
     } else {
       setError(response.error.message);
       setAddingBook(false);
@@ -178,7 +182,7 @@ export default function BookForm() {
           >
             Add Book
           </button>
-          { error ? <div className="error">Error: {error}</div> : ""}
+          { error ? <div className="error">Error: {error}</div> : "" }
         </footer>
       </article>
     </form>

@@ -137,7 +137,7 @@ export default function BookDetail({ params }) {
             name="genre"
             handleChange={handleChange}
             value={state.genre}
-            options={["Mystery", "Science Fiction", "Romance"]}
+            options={["", "Mystery", "Science Fiction", "Romance"]}
           />
         </div>
 
@@ -146,7 +146,7 @@ export default function BookDetail({ params }) {
             name="rating"
             handleChange={handleChange}
             value={state.rating}
-            options={["1", "2", "3", "4", "5"]}
+            options={["", "1", "2", "3", "4", "5"]}
           />
         </div>
 
@@ -163,7 +163,7 @@ export default function BookDetail({ params }) {
             name="tag"
             handleChange={handleChange}
             value={state.tag}
-            options={["read", "to read", "did not finish"]}
+            options={["", "read", "to read", "did not finish"]}
           />
         </div>
 
