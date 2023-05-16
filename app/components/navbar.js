@@ -37,7 +37,7 @@ export default async function Navbar() {
 
       <ul>
         <li>
-          <Link href="/my-media">My Media</Link>
+          <Link href="/media">My Media</Link>
         </li>
         <li>
           <details role="list">
@@ -46,13 +46,13 @@ export default async function Navbar() {
             </summary>
             <ul role="listbox">
               <li>
-                <Link href="/add-book">Book</Link>
+                <Link href="/books/new">Book</Link>
               </li>
               <li>
-                <Link href="/add-album">Album</Link>
+                <Link href="/albums/new">Album</Link>
               </li>
               <li>
-                <Link href="/add-movie">Movie</Link>
+                <Link href="/movies/new">Movie</Link>
               </li>
             </ul>
           </details>

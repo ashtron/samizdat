@@ -1,4 +1,4 @@
-import MovieForm from "../components/form/movie-form";
+import MovieForm from "../../components/form/movie-form";
 
 export default function AddMoviePage() {
   return (
