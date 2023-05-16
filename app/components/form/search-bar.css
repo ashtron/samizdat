@@ -1,36 +1,15 @@
-.search-bar {
-  position: relative;
-}
-
-.search-bar ul {
-  padding: 0;
-  cursor: pointer;
-  z-index: 2;
-  position: absolute;
-  width: 100%;
-}
-
 .search-bar ul li {
   list-style: none;
   margin: 0;
 }
 
-.search-bar ul li:hover {
-  border: 1px solid var(--form-element-active-border-color);
-  box-shadow: var(--box-shadow);
+.search-bar ul li a {
+  cursor: pointer;
 }
 
-.search-bar input {
-  margin: 0;
-}
-
-.suggestion {
-  pointer-events: none;
-}
-
-.suggestion:hover {
-}
-
-.loading {
-  margin-bottom: 0px;
+.search-input {
+  all: unset !important;
+  width: 100% !important;
+  z-index: 1000 !important;
+  position: absolute !important;
 }
