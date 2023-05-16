@@ -59,8 +59,6 @@ export default function BookForm() {
       }
     });
 
-    console.log(filteredBook);
-
     await supabase.from("books").insert([filteredBook]);
   };
 
@@ -114,7 +112,7 @@ export default function BookForm() {
             name="genre"
             handleChange={handleChange}
             value={state.genre}
-            options={["Mystery", "Science Fiction", "Romance"]}
+            options={["", "Mystery", "Science Fiction", "Romance"]}
           />
         </div>
 
@@ -123,7 +121,8 @@ export default function BookForm() {
             name="rating"
             handleChange={handleChange}
             value={state.rating}
-            options={["1", "2", "3", "4", "5"]}
+            options={["", "1", "2", "3", "4", "5"]}
+            defaultValue={-1}
           />
         </div>
 
@@ -140,7 +139,7 @@ export default function BookForm() {
             name="tag"
             handleChange={handleChange}
             value={state.tag}
-            options={["read", "to read", "did not finish"]}
+            options={["", "read", "to read", "did not finish"]}
           />
         </div>
 
