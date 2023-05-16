@@ -34,7 +34,7 @@ export default function ImageSlider({ slides }) {
             style={{ backgroundImage: `url(${slides[currentSlide].imageUrl})` }}
           ></div>
         </Link>
-        <Link href={`/books/${slides[currentSlide + 1].id}`}>
+        <Link href={`/books/${slides[(currentSlide + 1) % slides.length].id}`}>
           <div
             className="slide"
             style={{
@@ -44,7 +44,7 @@ export default function ImageSlider({ slides }) {
             }}
           ></div>
         </Link>
-        <Link href={`/books/${slides[currentSlide + 2].id}`}>
+        <Link href={`/books/${slides[(currentSlide + 2) % slides.length].id}`}>
           <div
             className="slide"
             style={{
