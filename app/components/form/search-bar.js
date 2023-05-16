@@ -20,13 +20,14 @@ export default function SearchBar({ onClick }) {
       let parsedBooks = await books.json();
       let docs = parsedBooks.docs;
 
-      setBooks(docs.slice(0, 5));
+      setBooks(docs.slice(0, 10));
     };
 
     if (event.keyCode === 13) {
       event.preventDefault();
 
       if (text.length > 0) {
+        setSuggestions([]);
         setSuggestionsLoading(true);
         fetchBooks();
       }
@@ -56,7 +57,11 @@ export default function SearchBar({ onClick }) {
 
   return (
     <div className="search-bar">
-      <details role="list" open={suggestionsOpen} onClick={(event) => event.preventDefault()}>
+      <details
+        role="list"
+        open={suggestionsOpen}
+        onClick={(event) => event.preventDefault()}
+      >
         <summary>
           <input
             type="text"
