@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+
 import "./image-slider.css";
 
 export default function ImageSlider({ slides }) {
@@ -26,28 +28,32 @@ export default function ImageSlider({ slides }) {
         <div className="left arrow" onClick={changeSlide}>
           {"<"}
         </div>
-
-        <div
-          className="slide"
-          style={{ backgroundImage: `url(${slides[currentSlide].imageUrl})` }}
-        ></div>
-        <div
-          className="slide"
-          style={{
-            backgroundImage: `url(${
-              slides[(currentSlide + 1) % slides.length].imageUrl
-            })`,
-          }}
-        ></div>
-        <div
-          className="slide"
-          style={{
-            backgroundImage: `url(${
-              slides[(currentSlide + 2) % slides.length].imageUrl
-            })`,
-          }}
-        ></div>
-
+        <Link href={`/books/${slides[currentSlide].id}`}>
+          <div
+            className="slide"
+            style={{ backgroundImage: `url(${slides[currentSlide].imageUrl})` }}
+          ></div>
+        </Link>
+        <Link href={`/books/${slides[currentSlide + 1].id}`}>
+          <div
+            className="slide"
+            style={{
+              backgroundImage: `url(${
+                slides[(currentSlide + 1) % slides.length].imageUrl
+              })`,
+            }}
+          ></div>
+        </Link>
+        <Link href={`/books/${slides[currentSlide + 2].id}`}>
+          <div
+            className="slide"
+            style={{
+              backgroundImage: `url(${
+                slides[(currentSlide + 2) % slides.length].imageUrl
+              })`,
+            }}
+          ></div>
+        </Link>
         <div className="right arrow" onClick={changeSlide}>
           {">"}
         </div>
