@@ -63,12 +63,16 @@ export default function BookForm() {
   };
 
   const onSearchBarSuggestionClick = (suggestion) => {
+    const imageUrl = suggestion.cover_i
+      ? `https://covers.openlibrary.org/b/id/${suggestion.cover_i}-M.jpg`
+      : "";
+
     state.title = setState({
       ...state,
       title: suggestion.title,
       author: suggestion.author_name[0],
       publicationDate: suggestion.first_publish_year,
-      imageUrl: `https://covers.openlibrary.org/b/id/${suggestion.cover_i}-M.jpg`,
+      imageUrl: imageUrl,
     });
   };
 
