@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { NextRequest, NextResponse } from "next/server";
 
-import SearchBar from "@/app/components/form/search-bar";
 import TextInput from "@/app/components/form/text-input";
 import TextAreaInput from "@/app/components/form/textarea";
 import Select from "@/app/components/form/select";

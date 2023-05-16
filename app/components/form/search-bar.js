@@ -64,13 +64,21 @@ export default function SearchBar({ onClick }) {
         value={text}
       />
       <ul>
-        {suggestionsLoading ? <button aria-busy="true"></button> : ""}
-
+        {suggestionsLoading ? (
+          <button className="loading" aria-busy="true"></button>
+        ) : (
+          ""
+        )}
         {suggestions &&
           suggestions.map((suggestion, i) => {
             return (
               <li key={suggestion.key} onClick={() => onClick(suggestion)}>
-                {suggestion.title}, {suggestion.author_name}
+                <input
+                  className="suggestion"
+                  type="text"
+                  placeholder={suggestion.title + ", " + suggestion.author_name}
+                  onClick={(event) => { event.preventDefault() }}
+                />
               </li>
             );
           })}
