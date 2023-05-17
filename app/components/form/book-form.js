@@ -22,7 +22,6 @@ export default function BookForm() {
     rating: "",
     notes: "",
     tag: "",
-    break: "true"
   });
 
   const [addingBook, setAddingBook] = useState(false);
@@ -69,7 +68,10 @@ export default function BookForm() {
       }
     });
 
-    const response = await supabase.from("books").insert([filteredBook]).select();
+    const response = await supabase
+      .from("books")
+      .insert([filteredBook])
+      .select();
 
     if (response.status === 201) {
       setAddingBook(false);
@@ -182,7 +184,7 @@ export default function BookForm() {
           >
             Add Book
           </button>
-          { error ? <div className="error">Error: {error}</div> : "" }
+          {error ? <div className="error">Error: {error}</div> : ""}
         </footer>
       </article>
     </form>
