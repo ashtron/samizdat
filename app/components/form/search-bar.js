@@ -63,7 +63,6 @@ export default function SearchBar({ onClick }) {
       <details
         role="list"
         open={suggestionsOpen}
-        onClick={(event) => event.preventDefault()}
       >
         <summary>
           <input
