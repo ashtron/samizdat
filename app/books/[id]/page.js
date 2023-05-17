@@ -18,7 +18,7 @@ export default function BookDetail({ params }) {
     const book = await supabase.from("books").select("*").eq("id", id);
 
     const stateObject = {};
-    
+
     Object.keys(book.data[0]).forEach((key) => {
       if (book.data[0][key] !== null) {
         stateObject[key] = book.data[0][key];
@@ -48,8 +48,14 @@ export default function BookDetail({ params }) {
     tag: "",
   });
 
+  const [error, setError] = useState("");
+  const [updatingDetails, setUpdatingDetails] = useState(false);
+  const [detailsUpdated, setDetailsUpdated] = useState(false);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    setUpdatingDetails(true);
 
     const newDetails = {
       title: state.title,
@@ -72,17 +78,25 @@ export default function BookDetail({ params }) {
 
     console.log(filteredDetails);
 
-    const { data, error } = await supabase
+    const response = await supabase
       .from("books")
       .update(filteredDetails)
       .eq("id", id);
+
+    if (response.status === 204) {
+      setUpdatingDetails(false);
+      setDetailsUpdated(true);
+      setError("");
+    } else {
+      console.log(response.error.message)
+      setError(response.error.message);
+      setUpdatingDetails(false);
+      setDetailsUpdated(false);
+    }
   };
 
   const deleteBook = async () => {
-    const { data, error } = await supabase
-      .from("books")
-      .delete()
-      .eq("id", id);
+    const { data, error } = await supabase.from("books").delete().eq("id", id);
   };
 
   function handleChange(event) {
@@ -168,12 +182,19 @@ export default function BookDetail({ params }) {
         </div>
 
         <footer>
-          <button type="submit">
-            Update Details
-          </button>
+          <footer>
+            <button
+              type="submit"
+              aria-busy={updatingDetails}
+              style={{ backgroundColor: detailsUpdated ? "#77dd77" : "" }}
+            >
+              Update Details
+            </button>
+          </footer>
           <button type="submit" onClick={deleteBook}>
             Delete Book
           </button>
+          {error ? <div className="error">Error: {error}</div> : ""}
         </footer>
       </article>
     </form>
