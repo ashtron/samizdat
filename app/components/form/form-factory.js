@@ -10,7 +10,11 @@ import Select from "./select";
 import TextAreaInput from "./textarea";
 import "./book-form.css";
 
-export default function formFactory(mediaItemFields, mediaType) {
+export default function formFactory(
+  mediaItemFields,
+  mediaType,
+  formComponents
+) {
   function Form() {
     const supabase = createBrowserSupabaseClient();
     const router = useRouter();
@@ -42,17 +46,6 @@ export default function formFactory(mediaItemFields, mediaType) {
     }
 
     const addMediaItem = async () => {
-      // const newMediaItem = {
-      //   title: state.title,
-      //   author: state.author,
-      //   imageUrl: state.imageUrl,
-      //   publicationDate: state.publicationDate,
-      //   genre: state.genre,
-      //   rating: state.rating,
-      //   notes: state.notes,
-      //   tag: state.tag,
-      // };
-
       const newMediaItem = Object.assign(mediaItemFields, mediaItem);
 
       const filteredMediaItem = {};
@@ -97,6 +90,33 @@ export default function formFactory(mediaItemFields, mediaType) {
       });
     };
 
+    const generateComponentGroups = () => {
+      const componentGroups = [];
+
+      formComponents.forEach((section) => {
+        const componentGroup = [];
+  
+        section.forEach((componentData) => {
+          const options = componentData.options;
+  
+          componentGroup.push(
+            <componentData.component
+              name={componentData.name}
+              handleChange={handleChange}
+              value={mediaItem[componentData.name]}
+              options={options}
+            />
+          );
+        });
+  
+        componentGroups.push(componentGroup);
+      });
+
+      return componentGroups;
+    }
+
+    const componentGroups = generateComponentGroups();
+
     // Needs generalizing.
     return (
       <form onSubmit={handleSubmit}>
@@ -111,67 +131,9 @@ export default function formFactory(mediaItemFields, mediaType) {
             <img src={mediaItem.imageUrl} alt="" />
           </div>
 
-          <div className="grid">
-            <TextInput
-              name="title"
-              handleChange={handleChange}
-              value={mediaItem.title}
-            />
-            <TextInput
-              name="author"
-              handleChange={handleChange}
-              value={mediaItem.author}
-            />
-            <TextInput
-              name="publicationDate"
-              handleChange={handleChange}
-              value={mediaItem.publicationDate}
-            />
-          </div>
-
-          <div className="grid">
-            <TextInput
-              name="imageUrl"
-              handleChange={handleChange}
-              value={mediaItem.imageUrl}
-            />
-          </div>
-
-          <div className="grid">
-            <Select
-              name="genre"
-              handleChange={handleChange}
-              value={mediaItem.genre}
-              options={["", "Mystery", "Science Fiction", "Romance"]}
-            />
-          </div>
-
-          <div className="grid">
-            <Select
-              name="rating"
-              handleChange={handleChange}
-              value={mediaItem.rating}
-              options={["", "1", "2", "3", "4", "5"]}
-              defaultValue={-1}
-            />
-          </div>
-
-          <div className="grid">
-            <TextAreaInput
-              name="notes"
-              handleChange={handleChange}
-              value={mediaItem.notes}
-            />
-          </div>
-
-          <div className="grid">
-            <Select
-              name="tag"
-              handleChange={handleChange}
-              value={mediaItem.tag}
-              options={["", "read", "to read", "did not finish"]}
-            />
-          </div>
+          {componentGroups.map((group) => {
+            return <div className="grid">{group}</div>;
+          })}
 
           <footer>
             <button
