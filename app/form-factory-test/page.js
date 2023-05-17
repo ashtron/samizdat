@@ -49,7 +49,7 @@ export default function FormFactoryTest() {
     ],
   ];
 
-  const Form = formFactory(mediaItemFields, "books", formComponents);
+  const Form = formFactory(mediaItemFields, "book", formComponents);
 
   return <div>{<Form />}</div>;
 }

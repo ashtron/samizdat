@@ -8,7 +8,8 @@ import SearchBar from "./search-bar";
 import TextInput from "./text-input";
 import Select from "./select";
 import TextAreaInput from "./textarea";
-import "./book-form.css";
+import { toTitleCase } from "@/app/lib/text-utilities";
+import "./form.css";
 
 export default function formFactory(
   mediaItemFields,
@@ -22,7 +23,6 @@ export default function formFactory(
     const [mediaItem, setMediaItem] = useState({
       ...mediaItemFields,
     });
-
     const [addingMediaItem, setAddingMediaItem] = useState(false);
     const [mediaItemAdded, setMediaItemAdded] = useState(false);
     const [error, setError] = useState("");
@@ -38,8 +38,6 @@ export default function formFactory(
 
     function handleSubmit(event) {
       event.preventDefault();
-
-      console.log(mediaItem);
 
       setAddingMediaItem(true);
       addMediaItem();
@@ -57,7 +55,7 @@ export default function formFactory(
       });
 
       const response = await supabase
-        .from(mediaType)
+        .from(`${mediaType}s`)
         .insert([filteredMediaItem])
         .select();
 
@@ -65,7 +63,7 @@ export default function formFactory(
         setAddingMediaItem(false);
         setMediaItemAdded(true);
         setError("");
-        router.push(`/${mediaType}/${response.data[0].id}`);
+        router.push(`/${mediaType}s/${response.data[0].id}`);
       } else {
         setError(response.error.message);
         setAddingMediaItem(false);
@@ -95,10 +93,10 @@ export default function formFactory(
 
       formComponents.forEach((section) => {
         const componentGroup = [];
-  
+
         section.forEach((componentData) => {
           const options = componentData.options;
-  
+
           componentGroup.push(
             <componentData.component
               name={componentData.name}
@@ -108,16 +106,15 @@ export default function formFactory(
             />
           );
         });
-  
+
         componentGroups.push(componentGroup);
       });
 
       return componentGroups;
-    }
+    };
 
     const componentGroups = generateComponentGroups();
 
-    // Needs generalizing.
     return (
       <form onSubmit={handleSubmit}>
         <article>
@@ -141,7 +138,7 @@ export default function formFactory(
               aria-busy={addingMediaItem}
               style={{ backgroundColor: mediaItemAdded ? "#77dd77" : "" }}
             >
-              Add Book
+              Add {toTitleCase(mediaType)}
             </button>
             {error ? <div className="error">Error: {error}</div> : ""}
           </footer>
