@@ -71,21 +71,43 @@ export default function formFactory(
       }
     };
 
-    // Needs generalizing.
+    const generateCoverImage = (suggestion) => {
+      switch (mediaType) {
+        case "book":
+          return suggestion.cover_i
+            ? `https://covers.openlibrary.org/b/id/${suggestion.cover_i}-M.jpg`
+            : "";
+          break;
+        case "movie":
+          return "";
+        case "album":
+          return "";
+      }
+    };
+
+    const populateSuggestedFields = (suggestion) => {
+      const imageUrl = generateCoverImage(suggestion);
+
+      switch (mediaType) {
+        case "book":
+          setMediaItem({
+            ...mediaItem,
+            title: suggestion.title,
+            author: suggestion.author_name[0],
+            publicationDate: suggestion.first_publish_year,
+            imageUrl: imageUrl,
+          });
+          break;
+        case "movie":
+          return "";
+        case "album":
+          return "";
+      }
+    };
+
     const onSearchBarSuggestionClick = (suggestion) => {
       setMediaItemAdded(false);
-
-      const imageUrl = suggestion.cover_i
-        ? `https://covers.openlibrary.org/b/id/${suggestion.cover_i}-M.jpg`
-        : "";
-
-      setMediaItem({
-        ...mediaItem,
-        title: suggestion.title,
-        author: suggestion.author_name[0],
-        publicationDate: suggestion.first_publish_year,
-        imageUrl: imageUrl,
-      });
+      populateSuggestedFields(suggestion);
     };
 
     const generateComponentGroups = () => {
