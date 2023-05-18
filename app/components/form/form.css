@@ -12,3 +12,7 @@
 img {
   margin-bottom: var(--block-spacing-vertical);
 }
+
+details {
+  margin-top: var(--spacing);
+}

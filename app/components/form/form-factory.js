@@ -141,9 +141,7 @@ export default function formFactory(
       <form onSubmit={handleSubmit}>
         <article>
           <header>
-            <header>
-              <SearchBar onClick={onSearchBarSuggestionClick} />
-            </header>
+            <SearchBar onClick={onSearchBarSuggestionClick} />
           </header>
 
           <div className="image-container">
