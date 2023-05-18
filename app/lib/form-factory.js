@@ -120,7 +120,10 @@ export default function formFactory(
             : "";
           break;
         case "movie":
-          return "";
+          return suggestion.poster_path
+          ? `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${suggestion.poster_path}`
+          : "";
+          break;
         case "album":
           return "";
       }
@@ -140,7 +143,14 @@ export default function formFactory(
           });
           break;
         case "movie":
-          return "";
+          setMediaItem({
+            ...mediaItem,
+            title: suggestion.title,
+            // author: suggestion.author_name[0],
+            releaseDate: suggestion.release_date,
+            imageUrl: imageUrl,
+          });
+          break;
         case "album":
           return "";
       }
@@ -183,7 +193,7 @@ export default function formFactory(
         <article>
           <header>
             {formType === "new" ? (
-              <SearchBar onClick={onSearchBarSuggestionClick} />
+              <SearchBar onClick={onSearchBarSuggestionClick} mediaType={mediaType} />
             ) : (
               <div>{mediaItem.title}</div>
             )}
