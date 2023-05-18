@@ -51,7 +51,7 @@ export default function FormFactoryTest({ params }) {
     ],
   ];
 
-  const Form = formFactory(mediaItemFields, "book", formComponents, "new", id);
+  const Form = formFactory(mediaItemFields, "book", formComponents, "detail", id);
 
   return <div>{<Form />}</div>;
 }

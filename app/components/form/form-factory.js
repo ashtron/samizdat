@@ -56,12 +56,14 @@ export default function formFactory(
       Object.keys(fetchedMediaItem.data[0]).forEach((key) => {
         if (fetchedMediaItem.data[0][key] !== null) {
           fetchedMediaItemState[key] = fetchedMediaItem.data[0][key];
+        } else {
+          fetchedMediaItemState[key] = "";
         }
       });
 
       setMediaItem({
         ...mediaItem,
-        ...fetchedMediaItem.data[0],
+        ...fetchedMediaItemState,
       });
     };
 
