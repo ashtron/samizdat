@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 
@@ -14,7 +14,9 @@ import "./form.css";
 export default function formFactory(
   mediaItemFields,
   mediaType,
-  formComponents
+  formComponents,
+  formType,
+  id
 ) {
   function Form() {
     const supabase = createBrowserSupabaseClient();
@@ -30,17 +32,43 @@ export default function formFactory(
     function handleChange(event) {
       event.preventDefault();
 
-      setState({
+      setMediaItem({
         ...mediaItem,
         [event.target.name]: event.target.value,
       });
     }
 
-    function handleSubmit(event) {
+    function handleNewSubmit(event) {
       event.preventDefault();
 
       setAddingMediaItem(true);
       addMediaItem();
+    }
+
+    const fetchMediaItem = async () => {
+      const fetchedMediaItem = await supabase
+        .from(`${mediaType}s`)
+        .select("*")
+        .eq("id", id);
+
+      const fetchedMediaItemState = {};
+
+      Object.keys(fetchedMediaItem.data[0]).forEach((key) => {
+        if (fetchedMediaItem.data[0][key] !== null) {
+          fetchedMediaItemState[key] = fetchedMediaItem.data[0][key];
+        }
+      });
+
+      setMediaItem({
+        ...mediaItem,
+        ...fetchedMediaItem.data[0],
+      });
+    };
+
+    if (formType === "detail") {
+      useEffect(() => {
+        fetchMediaItem();
+      }, []);
     }
 
     const addMediaItem = async () => {
@@ -54,16 +82,27 @@ export default function formFactory(
         }
       });
 
-      const response = await supabase
-        .from(`${mediaType}s`)
-        .insert([filteredMediaItem])
-        .select();
+      let response;
 
-      if (response.status === 201) {
+      if (formType === "new") {
+        response = await supabase
+          .from(`${mediaType}s`)
+          .insert([filteredMediaItem])
+          .select();
+      } else {
+        response = await supabase
+          .from(`${mediaType}s`)
+          .update(filteredMediaItem)
+          .eq("id", id);
+      }
+
+      if (response.status === 201 || response.status === 204) {
         setAddingMediaItem(false);
         setMediaItemAdded(true);
         setError("");
-        router.push(`/${mediaType}s/${response.data[0].id}`);
+
+        if (formType === "new")
+          router.push(`/${mediaType}s/${response.data[0].id}`);
       } else {
         setError(response.error.message);
         setAddingMediaItem(false);
@@ -138,17 +177,21 @@ export default function formFactory(
     const componentGroups = generateComponentGroups();
 
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleNewSubmit}>
         <article>
           <header>
-            <SearchBar onClick={onSearchBarSuggestionClick} />
+            {formType === "new" ? (
+              <SearchBar onClick={onSearchBarSuggestionClick} />
+            ) : (
+              <div>{mediaItem.title}</div>
+            )}
           </header>
 
           <div className="image-container">
             <img src={mediaItem.imageUrl} alt="" />
           </div>
 
-          {componentGroups.map((group) => {
+          {componentGroups.map((group, i) => {
             return <div className="grid">{group}</div>;
           })}
 

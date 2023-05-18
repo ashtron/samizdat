@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { NextRequest, NextResponse } from "next/server";
 
 import TextInput from "@/app/components/form/text-input";
 import TextAreaInput from "@/app/components/form/textarea";
@@ -52,31 +51,16 @@ export default function BookDetail({ params }) {
   const [updatingDetails, setUpdatingDetails] = useState(false);
   const [detailsUpdated, setDetailsUpdated] = useState(false);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const updateMediaItem = async () => {
+    const newMediaItem = Object.assign(mediaItemFields, mediaItem);
 
-    setUpdatingDetails(true);
+    const filteredMediaItem = {};
 
-    const newDetails = {
-      title: state.title,
-      author: state.author,
-      imageUrl: state.imageUrl,
-      publicationDate: state.publicationDate,
-      genre: state.genre,
-      rating: state.rating,
-      notes: state.notes,
-      tag: state.tag,
-    };
-
-    const filteredDetails = {};
-
-    Object.keys(newDetails).forEach((key) => {
-      if (newDetails[key] !== "") {
-        filteredDetails[key] = newDetails[key];
+    Object.keys(newMediaItem).forEach((key) => {
+      if (newMediaItem[key] !== "") {
+        filteredMediaItem[key] = newMediaItem[key];
       }
     });
-
-    console.log(filteredDetails);
 
     const response = await supabase
       .from("books")
@@ -88,11 +72,18 @@ export default function BookDetail({ params }) {
       setDetailsUpdated(true);
       setError("");
     } else {
-      console.log(response.error.message)
+      console.log(response.error.message);
       setError(response.error.message);
       setUpdatingDetails(false);
       setDetailsUpdated(false);
     }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    setUpdatingDetails(true);
+    updateMediaItem();
   };
 
   const deleteBook = async () => {

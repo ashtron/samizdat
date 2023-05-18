@@ -1,12 +1,14 @@
 "use client";
 
-import TextInput from "../components/form/text-input";
-import Select from "../components/form/select";
-import TextAreaInput from "../components/form/textarea";
+import TextInput from "../../components/form/text-input";
+import Select from "../../components/form/select";
+import TextAreaInput from "../../components/form/textarea";
 
-import formFactory from "../components/form/form-factory";
+import formFactory from "../../components/form/form-factory";
 
-export default function FormFactoryTest() {
+export default function FormFactoryTest({ params }) {
+  const { id } = params;
+  
   const mediaItemFields = {
     title: "",
     author: "",
@@ -49,7 +51,7 @@ export default function FormFactoryTest() {
     ],
   ];
 
-  const Form = formFactory(mediaItemFields, "book", formComponents);
+  const Form = formFactory(mediaItemFields, "book", formComponents, "new", id);
 
   return <div>{<Form />}</div>;
 }
