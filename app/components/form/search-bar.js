@@ -4,7 +4,6 @@ import "./search-bar.css";
 import { useState, useEffect } from "react";
 
 export default function SearchBar({ onClick, mediaType }) {
-  console.log("key:", process.env.NEXT_PUBLIC_TMDB_API_KEY);
   const [mediaItems, setMediaItems] = useState([]);
   const [suggestionsLoading, setSuggestionsLoading] = useState(false);
   const [text, setText] = useState("");
@@ -27,12 +26,12 @@ export default function SearchBar({ onClick, mediaType }) {
 
           parsedMediaItems = await mediaItems.json();
           results = parsedMediaItems.docs;
-          console.log("results:", results);
           break;
         case "movie":
           mediaItems = await fetch(
             `https://api.themoviedb.org/3/search/movie?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&query=${query}`
           );
+
           parsedMediaItems = await mediaItems.json();
           results = parsedMediaItems.results;
           break;
@@ -65,7 +64,6 @@ export default function SearchBar({ onClick, mediaType }) {
 
   useEffect(() => {
     let matches = [];
-    console.log("mediaItems[0].credits:", mediaItems[0]);
     
     if (text.length > 0) {
       matches = mediaItems.filter((mediaItem) => {

@@ -121,15 +121,29 @@ export default function formFactory(
           break;
         case "movie":
           return suggestion.poster_path
-          ? `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${suggestion.poster_path}`
-          : "";
+            ? `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${suggestion.poster_path}`
+            : "";
           break;
         case "album":
           return "";
       }
     };
 
-    const populateSuggestedFields = (suggestion) => {
+    const fetchDirectorName = async (suggestion) => {
+      const credits = await fetch(
+        `https://api.themoviedb.org/3/movie/${suggestion.id}/credits?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
+      );
+
+      const parsedCredits = await credits.json();
+
+      const director = parsedCredits.crew.filter((crewMember) => {
+        return crewMember.job === "Director";
+      })[0].name;
+
+      return director;
+    };
+
+    const populateSuggestedFields = async (suggestion) => {
       const imageUrl = generateCoverImage(suggestion);
 
       switch (mediaType) {
@@ -146,7 +160,7 @@ export default function formFactory(
           setMediaItem({
             ...mediaItem,
             title: suggestion.title,
-            // author: suggestion.author_name[0],
+            director: await fetchDirectorName(suggestion),
             releaseDate: suggestion.release_date,
             imageUrl: imageUrl,
           });
@@ -193,7 +207,10 @@ export default function formFactory(
         <article>
           <header>
             {formType === "new" ? (
-              <SearchBar onClick={onSearchBarSuggestionClick} mediaType={mediaType} />
+              <SearchBar
+                onClick={onSearchBarSuggestionClick}
+                mediaType={mediaType}
+              />
             ) : (
               <div>{mediaItem.title}</div>
             )}
@@ -213,7 +230,9 @@ export default function formFactory(
               aria-busy={addingMediaItem}
               style={{ backgroundColor: mediaItemAdded ? "#77dd77" : "" }}
             >
-              { formType === "new" ?  `Add ${toTitleCase(mediaType)}` : `Update ${toTitleCase(mediaType)}` }
+              {formType === "new"
+                ? `Add ${toTitleCase(mediaType)}`
+                : `Update ${toTitleCase(mediaType)}`}
             </button>
             {error ? <div className="error">Error: {error}</div> : ""}
           </footer>
