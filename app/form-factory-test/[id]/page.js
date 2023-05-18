@@ -4,7 +4,7 @@ import TextInput from "../../components/form/text-input";
 import Select from "../../components/form/select";
 import TextAreaInput from "../../components/form/textarea";
 
-import formFactory from "../../components/form/form-factory";
+import formFactory from "../../lib/form-factory";
 
 export default function FormFactoryTest({ params }) {
   const { id } = params;
@@ -51,7 +51,7 @@ export default function FormFactoryTest({ params }) {
     ],
   ];
 
-  const Form = formFactory(mediaItemFields, "book", formComponents, "detail", id);
+  const Form = formFactory(mediaItemFields, "book", formComponents, "new", id);
 
   return <div>{<Form />}</div>;
 }

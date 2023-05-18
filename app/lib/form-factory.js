@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 
-import SearchBar from "./search-bar";
-import TextInput from "./text-input";
-import Select from "./select";
-import TextAreaInput from "./textarea";
+import SearchBar from "../components/form/search-bar";
+import TextInput from "../components/form/text-input";
+import Select from "../components/form/select";
+import TextAreaInput from "../components/form/textarea";
 import { toTitleCase } from "@/app/lib/text-utilities";
-import "./form.css";
+import "../components/form/form.css";
 
 export default function formFactory(
   mediaItemFields,
@@ -203,7 +203,7 @@ export default function formFactory(
               aria-busy={addingMediaItem}
               style={{ backgroundColor: mediaItemAdded ? "#77dd77" : "" }}
             >
-              Add {toTitleCase(mediaType)}
+              { formType === "new" ?  `Add ${toTitleCase(mediaType)}` : `Update ${toTitleCase(mediaType)}` }
             </button>
             {error ? <div className="error">Error: {error}</div> : ""}
           </footer>
