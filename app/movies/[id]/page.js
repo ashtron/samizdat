@@ -6,8 +6,8 @@ import TextAreaInput from "../../components/form/textarea";
 
 import formFactory from "../../lib/form-factory";
 
-export default function FormFactoryTest({ params }) {
-  const { id } = params;
+export default function UpdateMoviePage({ params }) {
+  const id = params ? params.id : "";
   
   const mediaItemFields = {
     title: "",
@@ -51,7 +51,7 @@ export default function FormFactoryTest({ params }) {
     ],
   ];
 
-  const Form = formFactory(mediaItemFields, "book", formComponents, "new", id);
+  const Form = formFactory(mediaItemFields, "movie", formComponents, "detail", id);
 
-  return <div>{<Form />}</div>;
+  return <Form />;
 }
