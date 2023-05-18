@@ -9,12 +9,21 @@ export default async function MyMediaPage() {
   });
 
   const books = await supabase.from("books").select();
+  const movies = await supabase.from("movies").select();
 
-  const slides = books.data.map((book) => {
+  const bookSlides = books.data.map((book) => {
     return {
       id: book.id,
       title: book.title,
       imageUrl: book.imageUrl,
+    };
+  });
+
+  const movieSlides = movies.data.map((movie) => {
+    return {
+      id: movie.id,
+      title: movie.title,
+      imageUrl: movie.imageUrl,
     };
   });
 
@@ -24,11 +33,11 @@ export default async function MyMediaPage() {
       <div>
         <article>
           <header>My Books</header>
-          {slides.length === 0 ? <button aria-busy="true"></button> : <ImageSlider slides={slides} />}
+          {bookSlides.length === 0 ? <button aria-busy="true"></button> : <ImageSlider slides={bookSlides} />}
         </article>
         <article>
           <header>My Movies</header>
-          {/* Here's where the movies go. */}
+          {movieSlides.length === 0 ? <button aria-busy="true"></button> : <ImageSlider slides={movieSlides} />}
         </article>
         <article>
           <header>My Albums</header>
