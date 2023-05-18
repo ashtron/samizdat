@@ -5,9 +5,6 @@ import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 
 import SearchBar from "../components/form/search-bar";
-import TextInput from "../components/form/text-input";
-import Select from "../components/form/select";
-import TextAreaInput from "../components/form/textarea";
 import { toTitleCase } from "@/app/lib/text-utilities";
 import "../components/form/form.css";
 
@@ -125,7 +122,8 @@ export default function formFactory(
             : "";
           break;
         case "album":
-          return "";
+          return suggestion.cover_image;
+          break;
       }
     };
 
@@ -142,6 +140,16 @@ export default function formFactory(
 
       return director;
     };
+
+    const fetchArtistName = async (suggestion) => {
+      const albumDetails = await fetch(
+        `https://api.discogs.com/masters/${suggestion.id}?key=${process.env.NEXT_PUBLIC_DISCOGS_KEY}&secret=${process.env.NEXT_PUBLIC_DISCOGS_SECRET}`
+      );
+
+      const parsedAlbumDetails = await albumDetails.json();
+
+      return parsedAlbumDetails.artists[0].name;
+    }
 
     const populateSuggestedFields = async (suggestion) => {
       const imageUrl = generateCoverImage(suggestion);
@@ -166,6 +174,16 @@ export default function formFactory(
           });
           break;
         case "album":
+          const [artist, title] = suggestion.title.split(" - ");
+          console.log("DKFJSK", suggestion)
+
+          setMediaItem({
+            ...mediaItem,
+            title: title,
+            artist: artist,
+            releaseDate: suggestion.year,
+            imageUrl: imageUrl,
+          });
           return "";
       }
     };

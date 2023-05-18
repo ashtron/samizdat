@@ -9,7 +9,7 @@ import formFactory from "../../lib/form-factory";
 export default function AddAlbumPage({ params }) {
   const mediaItemFields = {
     title: "",
-    director: "",
+    artist: "",
     imageUrl: "",
     releaseDate: "",
     genre: "",
@@ -21,7 +21,7 @@ export default function AddAlbumPage({ params }) {
   const formComponents = [
     [
       { component: TextInput, name: "title" },
-      { component: TextInput, name: "director" },
+      { component: TextInput, name: "artist" },
       { component: TextInput, name: "releaseDate" },
     ],
     [{ component: TextInput, name: "imageUrl" }],

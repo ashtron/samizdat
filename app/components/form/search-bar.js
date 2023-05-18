@@ -36,7 +36,13 @@ export default function SearchBar({ onClick, mediaType }) {
           results = parsedMediaItems.results;
           break;
         case "album":
-          return "";
+          mediaItems = await fetch(
+            `https://api.discogs.com/database/search?q=${query}&key=${process.env.NEXT_PUBLIC_DISCOGS_KEY}&secret=${process.env.NEXT_PUBLIC_DISCOGS_SECRET}&format=album`
+          );
+
+          parsedMediaItems = await mediaItems.json();
+          results = parsedMediaItems.results;
+          break;
       }
 
       setMediaItems(results.slice(0, 10));
@@ -64,7 +70,7 @@ export default function SearchBar({ onClick, mediaType }) {
 
   useEffect(() => {
     let matches = [];
-    
+
     if (text.length > 0) {
       matches = mediaItems.filter((mediaItem) => {
         const regex = new RegExp(`${text}`, "gi");

@@ -10,6 +10,7 @@ export default async function MyMediaPage() {
 
   const books = await supabase.from("books").select();
   const movies = await supabase.from("movies").select();
+  const albums = await supabase.from("albums").select();
 
   const bookSlides = books.data.map((book) => {
     return {
@@ -20,6 +21,14 @@ export default async function MyMediaPage() {
   });
 
   const movieSlides = movies.data.map((movie) => {
+    return {
+      id: movie.id,
+      title: movie.title,
+      imageUrl: movie.imageUrl,
+    };
+  });
+
+  const albumSlides = albums.data.map((movie) => {
     return {
       id: movie.id,
       title: movie.title,
@@ -41,7 +50,7 @@ export default async function MyMediaPage() {
         </article>
         <article>
           <header>My Albums</header>
-          {/* Here's where the albums go. */}
+          {albumSlides.length === 0 ? <button aria-busy="true"></button> : <ImageSlider slides={albumSlides} />}
         </article>
       </div>
     </main>
