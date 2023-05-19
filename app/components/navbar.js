@@ -65,10 +65,10 @@ export default function Navbar() {
                 <Link href="/books/new">Book</Link>
               </li>
               <li onClick={closeDropdown}>
-                <Link href="/movies/new">Album</Link>
+                <Link href="/albums/new">Album</Link>
               </li>
               <li onClick={closeDropdown}>
-                <Link href="/albums/new">Movie</Link>
+                <Link href="/movies/new">Movie</Link>
               </li>
             </ul>
           </details>
