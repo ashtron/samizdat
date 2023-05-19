@@ -23,8 +23,8 @@ export default function UpdateMoviePage({ params }) {
   const formComponents = [
     [
       { component: TextInput, name: "title" },
-      { component: TextInput, name: "author" },
-      { component: TextInput, name: "publicationDate" },
+      { component: TextInput, name: "director" },
+      { component: TextInput, name: "releaseDate" },
     ],
     [{ component: TextInput, name: "imageUrl" }],
     [

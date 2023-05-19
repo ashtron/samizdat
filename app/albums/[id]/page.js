@@ -23,8 +23,8 @@ export default function UpdateAlbumPage({ params }) {
   const formComponents = [
     [
       { component: TextInput, name: "title" },
-      { component: TextInput, name: "author" },
-      { component: TextInput, name: "publicationDate" },
+      { component: TextInput, name: "artist" },
+      { component: TextInput, name: "releaseDate" },
     ],
     [{ component: TextInput, name: "imageUrl" }],
     [
