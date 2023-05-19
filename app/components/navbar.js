@@ -2,10 +2,22 @@
 
 import Link from "next/link";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { useEffect } from "react";
+import { useState } from "react";
 
-export default async function Navbar() {
+export default function Navbar() {
   const supabase = createBrowserSupabaseClient();
+
+  const [open, setOpen] = useState(false);
+
+  const openDropdown = (event) => {
+    event.preventDefault();
+    setOpen(true);
+  };
+
+  const closeDropdown = (event) => {
+    event.preventDefault();
+    setOpen(false);
+  };
 
   const signUp = () => {
     supabase.auth.signUp({
@@ -40,19 +52,23 @@ export default async function Navbar() {
           <Link href="/media">My Media</Link>
         </li>
         <li>
-          <details role="list">
-            <summary aria-haspopup="listbox" role="button">
+          <details role="list" open={open}>
+            <summary
+              aria-haspopup="listbox"
+              role="button"
+              onClick={openDropdown}
+            >
               Add New
             </summary>
             <ul role="listbox">
-              <li>
+              <li onClick={closeDropdown}>
                 <Link href="/books/new">Book</Link>
               </li>
-              <li>
-                <Link href="/albums/new">Album</Link>
+              <li onClick={closeDropdown}>
+                <Link href="/movies/new">Album</Link>
               </li>
-              <li>
-                <Link href="/movies/new">Movie</Link>
+              <li onClick={closeDropdown}>
+                <Link href="/albums/new">Movie</Link>
               </li>
             </ul>
           </details>
