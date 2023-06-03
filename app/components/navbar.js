@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const supabase = createBrowserSupabaseClient();
+  const router = useRouter();
 
   const [open, setOpen] = useState(false);
 
@@ -26,16 +28,47 @@ export default function Navbar() {
     });
   };
 
-  const logIn = () => {
-    supabase.auth.signInWithPassword({
+  const logIn = async () => {
+    await supabase.auth.signInWithPassword({
       email: "s391gm+7gxcbs14ly5yo@sharklasers.com",
       password: "123456789",
     });
+
+    router.push("/media");
   };
 
   const logOut = () => {
     supabase.auth.signOut();
   };
+
+  const getSessionStatus = async () => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    console.log("session:", session);
+  }
+
+  const loggedIn = async () => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    return session ? true : false;
+  }
+
+  const testLoggedIn = async () => {
+    console.log(await loggedIn());
+  }
+
+  const protectPage = async () => {
+    const loggedInStatus = await loggedIn();
+    console.log("AJFJDKFJKSLDJFLKSJDLFKJSDJF");
+
+    if (!loggedInStatus) return (<div>You must be logged in to access this page.</div>)
+  }
+
+  protectPage();
 
   return (
     <nav>
@@ -84,6 +117,8 @@ export default function Navbar() {
                 Log In
               </li>
               <li onClick={logOut}>Log Out</li>
+              <li onClick={getSessionStatus}>Get Session Status</li>
+              <li onClick={testLoggedIn}>Test Logged In</li>
             </ul>
           </details>
         </li>
