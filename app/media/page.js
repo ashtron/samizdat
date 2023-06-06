@@ -1,12 +1,27 @@
+"use client";
+
+import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+// import { headers, cookies } from "next/dist/client/components/headers";
+
 import ImageSlider from "../components/image-slider";
-import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { headers, cookies } from "next/dist/client/components/headers";
+import loggedIn from "../lib/auth-utilities";
 
 export default async function MyMediaPage() {
-  const supabase = createServerComponentSupabaseClient({
-    headers,
-    cookies
-  });
+  const router = useRouter();
+
+  useEffect(() => {
+    async function protectPage() {
+      if (!await loggedIn()) {
+        router.push("/");
+      }
+    }
+    
+    protectPage();
+  }, []);
+
+  const supabase = createBrowserSupabaseClient();
 
   const books = await supabase.from("books").select();
   const movies = await supabase.from("movies").select();

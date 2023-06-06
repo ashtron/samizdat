@@ -63,7 +63,6 @@ export default function Navbar() {
 
   const protectPage = async () => {
     const loggedInStatus = await loggedIn();
-    console.log("AJFJDKFJKSLDJFLKSJDLFKJSDJF");
 
     if (!loggedInStatus) return (<div>You must be logged in to access this page.</div>)
   }

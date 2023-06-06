@@ -1,12 +1,16 @@
 "use client";
 
+import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+
 import TextInput from "../../components/form/text-input";
 import Select from "../../components/form/select";
 import TextAreaInput from "../../components/form/textarea";
 
 import formFactory from "../../lib/form-factory";
 
-export default function AddAlbumPage({ params }) {
+export default async function AddAlbumPage({ params }) {
+  const supabase = createBrowserSupabaseClient();
+
   const mediaItemFields = {
     title: "",
     artist: "",
@@ -16,6 +20,14 @@ export default function AddAlbumPage({ params }) {
     rating: "",
     notes: "",
     tag: "",
+  };
+
+  const loggedIn = async () => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    return session ? true : false;
   };
 
   const formComponents = [
@@ -51,10 +63,16 @@ export default function AddAlbumPage({ params }) {
 
   const Form = formFactory(mediaItemFields, "album", formComponents, "new");
 
-  return (
-    <main className="container">
-      <h2>Add an album to your collection.</h2>
-      <Form />
-    </main>
-  );
+  console.log("logged in?", await loggedIn());
+
+  if (await loggedIn()) {
+    return (
+      <main className="container">
+        <h2>Add an album to your collection.</h2>
+        <Form />
+      </main>
+    );
+  } else {
+    return <div>You must be logged in to access this page.</div>;
+  }
 }
