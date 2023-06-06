@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import "./image-slider.css";
 
-export default function ImageSlider({ slides }) {
+export default function ImageSlider({ slides, mediaType }) {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const changeSlide = (event) => {
@@ -28,13 +28,13 @@ export default function ImageSlider({ slides }) {
         <div className="left arrow" onClick={changeSlide}>
           {"<"}
         </div>
-        <Link href={`/books/${slides[currentSlide].id}`}>
+        <Link href={`/${mediaType}/${slides[currentSlide].id}`}>
           <div
             className="slide"
             style={{ backgroundImage: `url(${slides[currentSlide].imageUrl})` }}
           ></div>
         </Link>
-        <Link href={`/books/${slides[(currentSlide + 1) % slides.length].id}`}>
+        <Link href={`/${mediaType}/${slides[(currentSlide + 1) % slides.length].id}`}>
           <div
             className="slide"
             style={{
@@ -44,7 +44,7 @@ export default function ImageSlider({ slides }) {
             }}
           ></div>
         </Link>
-        <Link href={`/books/${slides[(currentSlide + 2) % slides.length].id}`}>
+        <Link href={`/${mediaType}/${slides[(currentSlide + 2) % slides.length].id}`}>
           <div
             className="slide"
             style={{

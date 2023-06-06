@@ -4,9 +4,25 @@ import TextInput from "../../components/form/text-input";
 import Select from "../../components/form/select";
 import TextAreaInput from "../../components/form/textarea";
 
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import loggedIn from "@/app/lib/auth-utilities";
+
 import formFactory from "../../lib/form-factory";
 
 export default function AddMoviePage({ params }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    async function protectPage() {
+      if (!await loggedIn()) {
+        router.push("/");
+      }
+    }
+    
+    protectPage();
+  }, []);
+
   const mediaItemFields = {
     title: "",
     director: "",

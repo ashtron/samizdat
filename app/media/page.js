@@ -3,7 +3,6 @@
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-// import { headers, cookies } from "next/dist/client/components/headers";
 
 import ImageSlider from "../components/image-slider";
 import loggedIn from "../lib/auth-utilities";
@@ -13,11 +12,11 @@ export default async function MyMediaPage() {
 
   useEffect(() => {
     async function protectPage() {
-      if (!await loggedIn()) {
+      if (!(await loggedIn())) {
         router.push("/");
       }
     }
-    
+
     protectPage();
   }, []);
 
@@ -43,11 +42,11 @@ export default async function MyMediaPage() {
     };
   });
 
-  const albumSlides = albums.data.map((movie) => {
+  const albumSlides = albums.data.map((album) => {
     return {
-      id: movie.id,
-      title: movie.title,
-      imageUrl: movie.imageUrl,
+      id: album.id,
+      title: album.title,
+      imageUrl: album.imageUrl,
     };
   });
 
@@ -57,15 +56,27 @@ export default async function MyMediaPage() {
       <div>
         <article>
           <header>My Books</header>
-          {bookSlides.length === 0 ? <button aria-busy="true"></button> : <ImageSlider slides={bookSlides} />}
+          {bookSlides.length === 0 ? (
+            <button aria-busy="true"></button>
+          ) : (
+            <ImageSlider slides={bookSlides} mediaType="books" />
+          )}
         </article>
         <article>
           <header>My Movies</header>
-          {movieSlides.length === 0 ? <button aria-busy="true"></button> : <ImageSlider slides={movieSlides} />}
+          {movieSlides.length === 0 ? (
+            <button aria-busy="true"></button>
+          ) : (
+            <ImageSlider slides={movieSlides} mediaType="movies" />
+          )}
         </article>
         <article>
           <header>My Albums</header>
-          {albumSlides.length === 0 ? <button aria-busy="true"></button> : <ImageSlider slides={albumSlides} />}
+          {albumSlides.length === 0 ? (
+            <button aria-busy="true"></button>
+          ) : (
+            <ImageSlider slides={albumSlides} mediaType="albums" />
+          )}
         </article>
       </div>
     </main>

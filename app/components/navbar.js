@@ -39,6 +39,8 @@ export default function Navbar() {
 
   const logOut = () => {
     supabase.auth.signOut();
+
+    router.push("/");
   };
 
   const getSessionStatus = async () => {
@@ -60,14 +62,6 @@ export default function Navbar() {
   const testLoggedIn = async () => {
     console.log(await loggedIn());
   }
-
-  const protectPage = async () => {
-    const loggedInStatus = await loggedIn();
-
-    if (!loggedInStatus) return (<div>You must be logged in to access this page.</div>)
-  }
-
-  protectPage();
 
   return (
     <nav>

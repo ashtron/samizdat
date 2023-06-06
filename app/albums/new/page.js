@@ -6,9 +6,25 @@ import TextInput from "../../components/form/text-input";
 import Select from "../../components/form/select";
 import TextAreaInput from "../../components/form/textarea";
 
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import loggedIn from "@/app/lib/auth-utilities";
+
 import formFactory from "../../lib/form-factory";
 
 export default async function AddAlbumPage({ params }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    async function protectPage() {
+      if (!(await loggedIn())) {
+        router.push("/");
+      }
+    }
+
+    protectPage();
+  }, []);
+
   const supabase = createBrowserSupabaseClient();
 
   const mediaItemFields = {
@@ -63,16 +79,10 @@ export default async function AddAlbumPage({ params }) {
 
   const Form = formFactory(mediaItemFields, "album", formComponents, "new");
 
-  console.log("logged in?", await loggedIn());
-
-  if (await loggedIn()) {
-    return (
-      <main className="container">
-        <h2>Add an album to your collection.</h2>
-        <Form />
-      </main>
-    );
-  } else {
-    return <div>You must be logged in to access this page.</div>;
-  }
+  return (
+    <main className="container">
+      <h2>Add an album to your collection.</h2>
+      <Form />
+    </main>
+  );
 }
