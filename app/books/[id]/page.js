@@ -3,10 +3,25 @@
 import TextInput from "../../components/form/text-input";
 import Select from "../../components/form/select";
 import TextAreaInput from "../../components/form/textarea";
-
 import formFactory from "../../lib/form-factory";
 
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import loggedIn from "@/app/lib/auth-utilities";
+
 export default function UpdateBookPage({ params }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    async function protectPage() {
+      if (!await loggedIn()) {
+        router.push("/");
+      }
+    }
+    
+    protectPage();
+  }, []);
+
   const id = params ? params.id : "";
   
   const mediaItemFields = {
