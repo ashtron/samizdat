@@ -2,23 +2,17 @@
 
 import Link from "next/link";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Navbar() {
+  const newMediaDropdown = useRef(null);
+
   const supabase = createBrowserSupabaseClient();
   const router = useRouter();
 
-  const [open, setOpen] = useState(false);
-
-  const openDropdown = (event) => {
-    event.preventDefault();
-    setOpen(true);
-  };
-
-  const closeDropdown = (event) => {
-    event.preventDefault();
-    setOpen(false);
+  const closeDropdown = () => {
+    newMediaDropdown.current.open = false;
   };
 
   const signUp = () => {
@@ -49,7 +43,7 @@ export default function Navbar() {
     } = await supabase.auth.getSession();
 
     console.log("session:", session);
-  }
+  };
 
   const loggedIn = async () => {
     const {
@@ -57,11 +51,11 @@ export default function Navbar() {
     } = await supabase.auth.getSession();
 
     return session ? true : false;
-  }
+  };
 
   const testLoggedIn = async () => {
     console.log(await loggedIn());
-  }
+  };
 
   return (
     <nav>
@@ -78,17 +72,13 @@ export default function Navbar() {
           <Link href="/media">My Media</Link>
         </li>
         <li>
-          <details role="list" open={open}>
-            <summary
-              aria-haspopup="listbox"
-              role="button"
-              onClick={openDropdown}
-            >
+          <details role="list" ref={newMediaDropdown}>
+            <summary aria-haspopup="listbox" role="button">
               Add New
             </summary>
             <ul role="listbox">
               <li onClick={closeDropdown}>
-                <Link href="/books/new">Book</Link>
+                <Link href="/albums/new">Book</Link>
               </li>
               <li onClick={closeDropdown}>
                 <Link href="/albums/new">Album</Link>
