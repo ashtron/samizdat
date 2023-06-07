@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import SearchBar from "../components/form/search-bar";
 import { toTitleCase } from "@/app/lib/text-utilities";
+import { getSession } from "./auth-utilities";
 import "../components/form/form.css";
 
 export default function formFactory(
@@ -19,12 +20,23 @@ export default function formFactory(
     const supabase = createBrowserSupabaseClient();
     const router = useRouter();
 
+    useEffect(() => {
+      async function getUser() {
+        const user = (await getSession()).user;
+        setUser(user);
+      }
+
+      getUser();
+    }, []);
+
     const [mediaItem, setMediaItem] = useState({
       ...mediaItemFields,
     });
+
     const [addingMediaItem, setAddingMediaItem] = useState(false);
     const [mediaItemAdded, setMediaItemAdded] = useState(false);
     const [error, setError] = useState("");
+    const [user, setUser] = useState({});
 
     function handleChange(event) {
       event.preventDefault();
@@ -43,9 +55,11 @@ export default function formFactory(
     }
 
     const fetchMediaItem = async () => {
+      if (!user.id) return;
       const fetchedMediaItem = await supabase
         .from(`${mediaType}s`)
         .select("*")
+        .eq("user_id", user.id)
         .eq("id", id);
 
       const fetchedMediaItemState = {};
@@ -67,7 +81,7 @@ export default function formFactory(
     if (formType === "detail") {
       useEffect(() => {
         fetchMediaItem();
-      }, []);
+      }, [user]);
     }
 
     const addMediaItem = async () => {
@@ -92,6 +106,7 @@ export default function formFactory(
         response = await supabase
           .from(`${mediaType}s`)
           .update(filteredMediaItem)
+          .eq("user_id", user.id)
           .eq("id", id);
       }
 
@@ -149,7 +164,7 @@ export default function formFactory(
       const parsedAlbumDetails = await albumDetails.json();
 
       return parsedAlbumDetails.artists[0].name;
-    }
+    };
 
     const populateSuggestedFields = async (suggestion) => {
       const imageUrl = generateCoverImage(suggestion);
@@ -175,7 +190,6 @@ export default function formFactory(
           break;
         case "album":
           const [artist, title] = suggestion.title.split(" - ");
-          console.log("DKFJSK", suggestion)
 
           setMediaItem({
             ...mediaItem,

@@ -77,8 +77,10 @@ export default function Navbar() {
               Add New
             </summary>
             <ul role="listbox">
+              {/* Manually close dropdown because the Links break
+              the default behavior. */}
               <li onClick={closeDropdown}>
-                <Link href="/albums/new">Book</Link>
+                <Link href="/books/new">Book</Link>
               </li>
               <li onClick={closeDropdown}>
                 <Link href="/albums/new">Album</Link>
