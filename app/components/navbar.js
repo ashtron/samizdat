@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Navbar() {
@@ -10,6 +10,16 @@ export default function Navbar() {
 
   const supabase = createBrowserSupabaseClient();
   const router = useRouter();
+
+  const [loggedInStatus, setLoggedInStatus] = useState(null);
+
+  useEffect(() => {
+    async function getLoggedInStatus() {
+      setLoggedInStatus(await loggedIn());
+    }
+
+    getLoggedInStatus();
+  })
 
   const closeDropdown = () => {
     newMediaDropdown.current.open = false;
@@ -91,23 +101,33 @@ export default function Navbar() {
             </ul>
           </details>
         </li>
-        <li>
-          <details role="list">
-            <summary aria-haspopup="listbox" role="button">
-              Auth
-            </summary>
-            <ul role="listbox">
-              <li onClick={signUp}>Sign Up</li>
-              <li onClick={logIn} role="button">
-                Log In
-              </li>
-              <li onClick={logOut}>Log Out</li>
-              <li onClick={getSessionStatus}>Get Session Status</li>
-              <li onClick={testLoggedIn}>Test Logged In</li>
-            </ul>
-          </details>
-        </li>
+        {loggedInStatus ? (
+          <li onClick={logOut}>
+            <Link href="/">Log Out</Link>
+          </li>
+        ) : (
+          <li>
+            <Link href="/">Log In</Link>
+          </li>
+        )}
       </ul>
     </nav>
   );
+}
+
+{
+  /* <details role="list">
+  <summary aria-haspopup="listbox" role="button">
+    Auth
+  </summary>
+  <ul role="listbox">
+    <li onClick={signUp}>Sign Up</li>
+    <li onClick={logIn} role="button">
+      Log In
+    </li>
+    <li onClick={logOut}>Log Out</li>
+    <li onClick={getSessionStatus}>Get Session Status</li>
+    <li onClick={testLoggedIn}>Test Logged In</li>
+  </ul>
+</details>; */
 }
