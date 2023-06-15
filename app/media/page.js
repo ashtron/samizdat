@@ -6,8 +6,11 @@ import { useState, useEffect } from "react";
 
 import ImageSlider from "../components/image-slider";
 import loggedIn from "../lib/auth-utilities";
+import { getSession } from "../lib/auth-utilities";
 
-export default async function MyMediaPage() {
+export default function MyMediaPage() {
+  const supabase = createBrowserSupabaseClient();
+
   const router = useRouter();
 
   const [user, setUser] = useState({});
@@ -23,8 +26,6 @@ export default async function MyMediaPage() {
 
     protectPage();
   }, []);
-
-  const supabase = createBrowserSupabaseClient();
 
   useEffect(() => {
     async function getUser() {
@@ -53,18 +54,18 @@ export default async function MyMediaPage() {
         .eq("user_id", user.id);
 
       setMediaItems({
-        books: books,
-        movies: movies,
-        albums: albums,
+        books: books.data,
+        movies: movies.data,
+        albums: albums.data,
       });
     }
 
-    fetchMediaItems();
+    if (user.id) fetchMediaItems();
   }, [user]);
 
   useEffect(() => {
     async function createSlides() {
-      const bookSlides = books.data.map((book) => {
+      const bookSlides = mediaItems.books.map((book) => {
         return {
           id: book.id,
           title: book.title,
@@ -72,9 +73,7 @@ export default async function MyMediaPage() {
         };
       });
 
-      console.log("bookSlides:", bookSlides);
-
-      const movieSlides = movies.data.map((movie) => {
+      const movieSlides = mediaItems.movies.map((movie) => {
         return {
           id: movie.id,
           title: movie.title,
@@ -82,7 +81,7 @@ export default async function MyMediaPage() {
         };
       });
 
-      const albumSlides = albums.data.map((album) => {
+      const albumSlides = mediaItems.albums.map((album) => {
         return {
           id: album.id,
           title: album.title,
@@ -97,7 +96,7 @@ export default async function MyMediaPage() {
       });
     }
 
-    createSlides();
+    if (!(Object.keys(mediaItems).length === 0)) createSlides();
   }, [mediaItems]);
 
   return (
@@ -106,7 +105,7 @@ export default async function MyMediaPage() {
       <div>
         <article>
           <header>My Books</header>
-          {slides.books === {} ? (
+          {Object.keys(slides.books).length === 0 ? (
             <button aria-busy="true"></button>
           ) : (
             <ImageSlider slides={slides.books} mediaType="books" />
@@ -114,7 +113,7 @@ export default async function MyMediaPage() {
         </article>
         <article>
           <header>My Movies</header>
-          {slides.movies === {} ? (
+          {Object.keys(slides.movies).length === 0 ? (
             <button aria-busy="true"></button>
           ) : (
             <ImageSlider slides={slides.movies} mediaType="movies" />
@@ -122,7 +121,7 @@ export default async function MyMediaPage() {
         </article>
         <article>
           <header>My Albums</header>
-          {slides.albums === {} ? (
+          {Object.keys(slides.albums).length === 0 ? (
             <button aria-busy="true"></button>
           ) : (
             <ImageSlider slides={slides.albums} mediaType="albums" />

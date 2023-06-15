@@ -22,8 +22,6 @@ export default function ImageSlider({ slides, mediaType }) {
     setCurrentSlide(newIndex);
   };
 
-  console.log("slides:", slides);
-
   return (
     <div className="slider-container">
       <div className="slider grid">
