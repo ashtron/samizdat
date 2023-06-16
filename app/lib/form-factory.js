@@ -56,10 +56,11 @@ export default function formFactory(
 
     const fetchMediaItem = async () => {
       if (!user.id) return;
+
       const fetchedMediaItem = await supabase
         .from(`${mediaType}s`)
         .select("*")
-        .eq("user_id", user.id)
+        .eq("userID", user.id)
         .eq("id", id);
 
       const fetchedMediaItemState = {};
@@ -97,6 +98,8 @@ export default function formFactory(
 
       let response;
 
+      console.log({ filteredMediaItem });
+
       if (formType === "new") {
         response = await supabase
           .from(`${mediaType}s`)
@@ -106,7 +109,7 @@ export default function formFactory(
         response = await supabase
           .from(`${mediaType}s`)
           .update(filteredMediaItem)
-          .eq("user_id", user.id)
+          .eq("userID", user.id)
           .eq("id", id);
       }
 
@@ -177,6 +180,7 @@ export default function formFactory(
             author: suggestion.author_name[0],
             publicationDate: suggestion.first_publish_year,
             imageUrl: imageUrl,
+            userID: user.id,
           });
           break;
         case "movie":
@@ -186,6 +190,7 @@ export default function formFactory(
             director: await fetchDirectorName(suggestion),
             releaseDate: suggestion.release_date,
             imageUrl: imageUrl,
+            userID: user.id
           });
           break;
         case "album":
@@ -197,6 +202,7 @@ export default function formFactory(
             artist: artist,
             releaseDate: suggestion.year,
             imageUrl: imageUrl,
+            userID: user.id,
           });
           return "";
       }

@@ -33,6 +33,7 @@ export default function UpdateBookPage({ params }) {
     rating: "",
     notes: "",
     tag: "",
+    userID: ""
   };
 
   const formComponents = [

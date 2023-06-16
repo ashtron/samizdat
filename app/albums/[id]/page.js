@@ -33,6 +33,7 @@ export default function UpdateAlbumPage({ params }) {
     rating: "",
     notes: "",
     tag: "",
+    userID: ""
   };
 
   const formComponents = [

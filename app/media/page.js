@@ -33,6 +33,8 @@ export default function MyMediaPage() {
       setUser(user);
     }
 
+    console.log({ user });
+
     getUser();
   }, []);
 
@@ -41,17 +43,17 @@ export default function MyMediaPage() {
       const books = await supabase
         .from("books")
         .select()
-        .eq("user_id", user.id);
+        .eq("userID", user.id);
 
       const movies = await supabase
         .from("movies")
         .select()
-        .eq("user_id", user.id);
+        .eq("userID", user.id);
 
       const albums = await supabase
         .from("albums")
         .select()
-        .eq("user_id", user.id);
+        .eq("userID", user.id);
 
       setMediaItems({
         books: books.data,

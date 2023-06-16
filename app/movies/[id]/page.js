@@ -28,11 +28,12 @@ export default function UpdateMoviePage({ params }) {
     title: "",
     author: "",
     imageUrl: "",
-    publicationDate: "",
+    releaseDate: "",
     genre: "",
     rating: "",
     notes: "",
     tag: "",
+    userID: ""
   };
 
   const formComponents = [
