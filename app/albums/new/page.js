@@ -12,7 +12,7 @@ import loggedIn from "@/app/lib/auth-utilities";
 
 import formFactory from "../../lib/form-factory";
 
-export default async function AddAlbumPage({ params }) {
+export default function AddAlbumPage({ params }) {
   const router = useRouter();
 
   useEffect(() => {
