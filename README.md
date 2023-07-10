@@ -2,6 +2,8 @@ samizdat is a web app for **privately** tracking the media you read, watch, and 
 
 ### Demo
 
+https://github.com/ashtron/samizdat/assets/2673057/0ef33221-6917-4f74-9088-f6a4f05ccc51
+
 ### Technologies
 
 * [NextJS](https://github.com/vercel/next.js/)
